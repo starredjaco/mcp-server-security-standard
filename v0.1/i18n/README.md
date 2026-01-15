@@ -22,36 +22,39 @@ Current status is tracked in `languages.json`:
 
 The following documents SHOULD be translated:
 
-- `/README.md`
-- `/CHANGELOG.md`
-- `/standard/msss.md`
-- `/standard/profiles.md`
-- `/standard/threat-model.md`
-- All controls in `/controls/`
-- `/governance/contributing.md`
-- This file (`/i18n/README.md`)
+- `README.md` (repository root)
+- `CHANGELOG.md` (repository root)
+- `standard/msss.md`
+- `standard/profiles.md`
+- `standard/threat-model.md`
+- All controls in `controls/`
+- `governance/contributing.md`
+- This file (`i18n/README.md`)
 
 The following documents MAY remain English-only:
 
 - JSON schemas (technical, language-neutral)
-- `/research/notes.md` (internal documentation)
+- `research/notes.md` (internal documentation)
 
 ### 2. Directory Structure
 
-Translations SHALL use the following structure:
+Translations SHALL use the following structure within each version directory:
 
 ```
-/standard/
-  msss.md              (English - authoritative)
-  es/
-    msss.md            (Spanish translation)
-  pt-BR/
-    msss.md            (Portuguese translation)
-  
-/controls/
-  MCP-FS-01-path-allowlisting.md       (English)
-  es/
-    MCP-FS-01-path-allowlisting.md     (Spanish)
+v0.1/
+├── standard/             (English - authoritative)
+│   ├── msss.md
+│   └── ...
+├── i18n/
+│   ├── es/              (Spanish translations)
+│   │   ├── standard/
+│   │   │   └── msss.md
+│   │   └── controls/
+│   │       └── MCP-FS-01-path-allowlisting.md
+│   ├── pt-BR/           (Portuguese Brazil translations)
+│   │   └── ...
+│   └── fr/              (French translations)
+│       └── ...
 ```
 
 ### 3. Translation Process
@@ -67,11 +70,11 @@ Translations SHALL use the following structure:
 4. **Add attribution**: Include translator credit at the bottom:
    ```markdown
    ---
-   **Translation**: [Your Name] (@github_username)  
-   **Date**: YYYY-MM-DD  
+   **Translation**: [Your Name] (@github_username)
+   **Date**: YYYY-MM-DD
    **Based on**: English v0.1.0
    ```
-5. **Submit PR**: Follow contribution guidelines in `/governance/contributing.md`
+5. **Submit PR**: Follow contribution guidelines in `governance/contributing.md`
 
 ### 4. Maintaining Translations
 
@@ -102,7 +105,7 @@ Translations SHOULD:
 
 Each language translation SHOULD maintain a glossary file mapping English technical terms to the target language:
 
-`/i18n/{lang}/glossary.md`:
+`v0.1/i18n/{lang}/glossary.md`:
 
 ```markdown
 # Glossary: English → Spanish
@@ -156,7 +159,7 @@ We welcome translation volunteers! To contribute:
 3. Fork the repository and create your translation
 4. Submit a pull request
 
-See `/governance/contributing.md` for detailed contribution guidelines.
+See `governance/contributing.md` for detailed contribution guidelines.
 
 ## Contact
 
@@ -166,5 +169,5 @@ For translation questions:
 
 ---
 
-**Version**: 0.1.0  
-**Last Updated**: 2026-01-15
+**Version**: 0.1.0
+**Last Updated**: 2025-01-15
