@@ -57,18 +57,70 @@ mkdir -p v0.1/i18n/es/standard
 - Share attack patterns: Open an issue with `threat-research` label
 - Propose new controls: See [contributing guide](v0.1/governance/contributing.md)
 
-## Control Domains
+## Control Catalog
 
-| Domain | Code | Controls | Description |
-|--------|------|----------|-------------|
-| **Filesystem** | FS | 3 | Path traversal prevention, allowlists, symlink handling |
-| **Execution** | EXEC | 3 | Command injection prevention, sandboxing, allowlists |
-| **Network** | NET | 3 | SSRF prevention, egress filtering, TLS enforcement |
-| **Authorization** | AUTHZ | 4 | Authentication, tool scopes, least privilege, RBAC |
-| **Input Validation** | INPUT | 3 | Schema validation, bounds checking, timeout enforcement |
-| **Logging** | LOG | 2 | Audit logging, sensitive data redaction |
-| **Supply Chain** | SUPPLY | 2 | Dependency pinning, trusted sources |
-| **Deployment** | DEPLOY | 3 | Container hardening, seccomp, resource limits |
+### Filesystem (FS)
+
+| Control | Level | Description |
+|---------|-------|-------------|
+| [MCP-FS-01](v0.1/controls/MCP-FS-01-path-allowlisting.md) | L1 | Path allowlisting to prevent unauthorized file access |
+| [MCP-FS-02](v0.1/controls/MCP-FS-02-symlink-resolution.md) | L2 | Symlink resolution to prevent path traversal via symbolic links |
+| [MCP-FS-03](v0.1/controls/MCP-FS-03-filesystem-sandboxing.md) | L3 | Filesystem sandboxing for complete isolation |
+
+### Execution (EXEC)
+
+| Control | Level | Description |
+|---------|-------|-------------|
+| [MCP-EXEC-01](v0.1/controls/MCP-EXEC-01-no-shell-execution.md) | L1 | Avoid shell execution to prevent command injection |
+| [MCP-EXEC-02](v0.1/controls/MCP-EXEC-02-command-allowlisting.md) | L1 | Command allowlisting for permitted executables |
+| [MCP-EXEC-03](v0.1/controls/MCP-EXEC-03-argument-separator.md) | L1 | Argument separation to prevent injection attacks |
+
+### Network (NET)
+
+| Control | Level | Description |
+|---------|-------|-------------|
+| [MCP-NET-01](v0.1/controls/MCP-NET-01-url-validation.md) | L1 | URL validation to prevent SSRF attacks |
+| [MCP-NET-02](v0.1/controls/MCP-NET-02-egress-filtering.md) | L3 | Egress traffic filtering with destination allowlists |
+| [MCP-NET-03](v0.1/controls/MCP-NET-03-tls-enforcement.md) | L2 | TLS 1.2+ enforcement for all remote connections |
+
+### Authorization (AUTHZ)
+
+| Control | Level | Description |
+|---------|-------|-------------|
+| [MCP-AUTHZ-01](v0.1/controls/MCP-AUTHZ-01-oauth-delegation.md) | L2 | OAuth 2.1 delegation for secure authentication |
+| [MCP-AUTHZ-02](v0.1/controls/MCP-AUTHZ-02-tool-scopes.md) | L2 | Per-tool scope definition with granular permissions |
+| [MCP-AUTHZ-03](v0.1/controls/MCP-AUTHZ-03-least-privilege.md) | L2 | Least privilege tool design principles |
+| [MCP-AUTHZ-04](v0.1/controls/MCP-AUTHZ-04-rbac.md) | L2 | Resource-based access control (RBAC) |
+
+### Input Validation (INPUT)
+
+| Control | Level | Description |
+|---------|-------|-------------|
+| [MCP-INPUT-01](v0.1/controls/MCP-INPUT-01-schema-validation.md) | L1 | JSON Schema validation for all tool arguments |
+| [MCP-INPUT-02](v0.1/controls/MCP-INPUT-02-bounds-checking.md) | L1 | Input bounds checking to prevent DoS attacks |
+| [MCP-INPUT-03](v0.1/controls/MCP-INPUT-03-timeout-enforcement.md) | L2 | Timeout enforcement for resource exhaustion prevention |
+
+### Logging (LOG)
+
+| Control | Level | Description |
+|---------|-------|-------------|
+| [MCP-LOG-01](v0.1/controls/MCP-LOG-01-audit-logging.md) | L1 | Comprehensive audit logging for all tool invocations |
+| [MCP-LOG-02](v0.1/controls/MCP-LOG-02-secret-redaction.md) | L1 | Automatic secret redaction in logs |
+
+### Supply Chain (SUPPLY)
+
+| Control | Level | Description |
+|---------|-------|-------------|
+| [MCP-SUPPLY-01](v0.1/controls/MCP-SUPPLY-01-package-integrity.md) | L1 | Package integrity verification with checksums |
+| [MCP-SUPPLY-02](v0.1/controls/MCP-SUPPLY-02-trusted-sources.md) | L1 | Trusted package sources and registry verification |
+
+### Deployment (DEPLOY)
+
+| Control | Level | Description |
+|---------|-------|-------------|
+| [MCP-DEPLOY-01](v0.1/controls/MCP-DEPLOY-01-container-hardening.md) | L2 | Container hardening with security best practices |
+| [MCP-DEPLOY-02](v0.1/controls/MCP-DEPLOY-02-seccomp-enforcement.md) | L3 | System call filtering via seccomp/AppArmor |
+| [MCP-DEPLOY-03](v0.1/controls/MCP-DEPLOY-03-resource-limits.md) | L2 | Resource limits and rate limiting for DoS prevention |
 
 **Total**: 23 controls across 8 security domains
 
