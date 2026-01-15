@@ -1,203 +1,191 @@
 # MCP Server Security Standard (MSSS)
 
-**Version**: 0.1.0  
-**Status**: Draft for Community Review  
-**License**: CC BY 4.0 (standard text), Apache 2.0 (schemas), MIT (repository)
+[![CC BY-SA 4.0][cc-by-sa-shield]][cc-by-sa]
+[![GitHub release](https://img.shields.io/badge/release-v0.1.0-blue)](https://github.com/mcp-security-standard/mcp-server-security-standard/releases/latest)
+[![Contributions Welcome](https://img.shields.io/badge/contributions-welcome-brightgreen)](#contributing)
 
-## Overview
+## 🎯 Welcome to the MCP Server Security Standard
 
-The **MCP Server Security Standard (MSSS)** is an open, community-driven standard for securing implementations of the Model Context Protocol (MCP). It provides verifiable security controls across three maturity levels (L1, L2, L3) to help developers build, operators deploy, and assessors evaluate MCP servers.
+The MCP Server Security Standard (MSSS) provides an open security standard for Model Context Protocol (MCP) servers. Born from real-world security incidents and community collaboration, MSSS offers developers, security teams, and assessors a comprehensive framework for building and evaluating secure MCP implementations.
 
-MCP servers act as intermediaries between AI models and external systems, exposing tools, resources, and prompts. Without proper security controls, they can become vectors for code execution, data exfiltration, and privilege escalation.
+## About MSSS
 
-## Why This Standard?
+The Model Context Protocol enables AI models to interact with external systems through tools, resources, and prompts. As MCP adoption accelerates, the security landscape has revealed critical vulnerabilities: command injection, path traversal, SSRF attacks, and supply chain compromises. MSSS addresses these challenges through verifiable, risk-based security controls.
 
-- **Real threats**: Multiple CVEs and incidents in 2024-2025 (command injection, path traversal, SSRF, supply chain attacks)
-- **Rapid adoption**: MCP gaining traction but security guidance is fragmented
-- **Verifiable controls**: Move beyond checklists to concrete, testable requirements
-- **Risk-based levels**: Choose appropriate security rigor for your deployment context
+MSSS provides:
+- **23 verifiable controls** across 8 security domains
+- **3 maturity levels** (L1-Baseline, L2-Standard, L3-Advanced)
+- **6 deployment profiles** tailored to common use cases
+- **Evidence-based verification** with clear acceptance criteria
+- **Machine-readable reporting** through JSON schemas
 
-## Quick Start
+## Project Leaders
 
-1. **Identify your deployment profile**: See `/standard/profiles.md`
-   - Local Development → L1
-   - Team Server → L2
-   - Internet-Facing or High-Value Tools → L3
+- **Daniel García (cr0hn)** - [@cr0hn](https://github.com/cr0hn) - Project Lead
 
-2. **Review the threat model**: `/standard/threat-model.md`
+## Current Stable Release - 0.1.0
 
-3. **Read the core standard**: `/standard/msss.md`
+The latest stable version is **v0.1.0** (January 2026). This is a community review draft.
 
-4. **Evaluate controls**: Browse `/controls/` and assess your implementation
+### Downloads
 
-5. **Generate a report**: Use `/reporting/report.schema.json` to document compliance
+- 📘 [Browse Online](v0.1/)
+- 📄 PDF Version (Coming Soon)
+- 📊 Control Matrix CSV (Coming Soon)
+- 🔧 [JSON Schemas](v0.1/reporting/)
 
-## Repository Structure
+Development takes place in the `main` branch.
+
+## Standard Structure
+
+MSSS is organized by version for stability and clarity:
 
 ```
-.
-├── README.md                 # This file
-├── CHANGELOG.md              # Version history
+v0.1/
 ├── standard/
-│   ├── msss.md               # Core normative standard (START HERE)
-│   ├── profiles.md           # Deployment profiles and recommendations
-│   └── threat-model.md       # Threat analysis and assumptions
-├── controls/                 # Individual control documents (23 controls)
-│   ├── MCP-FS-01-path-allowlisting.md
-│   ├── MCP-EXEC-01-no-shell-execution.md
-│   ├── MCP-NET-01-url-validation.md
-│   ├── MCP-AUTHZ-01-oauth-delegation.md
-│   ├── MCP-INPUT-01-schema-validation.md
-│   ├── MCP-LOG-01-audit-logging.md
-│   ├── MCP-SUPPLY-01-package-integrity.md
-│   ├── MCP-DEPLOY-01-container-hardening.md
-│   └── ... (and 15 more)
-├── reporting/                # JSON schemas for assessment reports
-│   ├── definitions.schema.json
-│   └── report.schema.json
+│   ├── msss.md               # Core normative standard
+│   ├── profiles.md           # Deployment profiles
+│   └── threat-model.md       # Threat analysis
+├── controls/                 # Individual control specifications
+├── reporting/                # Assessment report schemas
 ├── governance/               # Policies and procedures
-│   ├── versioning.md
-│   ├── contributing.md
-│   └── trademark-and-certification-policy.md
-├── i18n/                     # Internationalization
-│   ├── README.md             # Translation guidelines
-│   └── languages.json        # Supported languages
-└── research/                 # Source research and notes
-    └── notes.md
+└── i18n/                     # Internationalization
 ```
+
+## Using the Standard
+
+### For Developers
+Start with the [deployment profiles](v0.1/standard/profiles.md) to identify your security level, then implement controls from the [control catalog](v0.1/controls/).
+
+### For Security Teams
+Use the [threat model](v0.1/standard/threat-model.md) to understand attack surfaces, then leverage the [reporting schemas](v0.1/reporting/) for assessments.
+
+### For Assessors
+Follow the [core standard](v0.1/standard/msss.md) for evaluation methodology and use evidence requirements from individual controls.
 
 ## Control Domains
 
-MSSS organizes controls into 8 security domains:
-
-| Domain | Code | Controls | Focus |
-|--------|------|----------|-------|
-| Filesystem | FS | 3 | Path traversal, symlinks, sandboxing |
-| Execution | EXEC | 3 | Command injection, shell usage |
-| Network | NET | 3 | SSRF, egress filtering, TLS |
-| Authorization | AUTHZ | 4 | OAuth, scoping, least privilege, RBAC |
-| Input Validation | INPUT | 3 | Schema validation, bounds, timeouts |
-| Logging | LOG | 2 | Audit trails, secret redaction |
-| Supply Chain | SUPPLY | 2 | Package integrity, trusted sources |
-| Deployment | DEPLOY | 3 | Container hardening, isolation, resource limits |
-
-**Total**: 23 controls (L1: 12, L2: 8, L3: 3)
+| Domain | Code | # Controls | Primary Focus |
+|--------|------|------------|---------------|
+| **Filesystem** | FS | 3 | Path traversal, symlink bypass, sandboxing |
+| **Execution** | EXEC | 3 | Command injection, shell security |
+| **Network** | NET | 3 | SSRF, egress control, transport security |
+| **Authorization** | AUTHZ | 4 | Authentication, scoping, RBAC |
+| **Input Validation** | INPUT | 3 | Schema enforcement, bounds checking |
+| **Logging** | LOG | 2 | Audit trails, secret redaction |
+| **Supply Chain** | SUPPLY | 2 | Package integrity, dependency security |
+| **Deployment** | DEPLOY | 3 | Container hardening, isolation |
 
 ## Verification Levels
 
-- **L1 (Baseline)**: Essential protections against common, high-impact vulnerabilities. Suitable for development and low-risk deployments.
-- **L2 (Standard)**: Comprehensive production-grade security with defense-in-depth. Recommended for team servers and internal deployments.
-- **L3 (Advanced)**: Maximum assurance for high-risk environments, including penetration testing and formal audits. Required for internet-facing and high-value tool servers.
+### Level 1 (L1) - Baseline
+Essential security for development environments and low-risk deployments. Focus on preventing common, high-impact vulnerabilities.
 
-## Example Controls
+### Level 2 (L2) - Standard
+Production-grade security with defense-in-depth. Required for team servers, internal deployments, and moderate-risk scenarios.
 
-### MCP-FS-01 — Path Allowlisting (L1)
-> MCP servers that expose filesystem access tools MUST restrict file operations to explicitly allowed directories using canonical path resolution.
+### Level 3 (L3) - Advanced
+Maximum assurance for internet-facing services, high-value tools, and regulated environments. Includes formal verification and continuous monitoring.
 
-Prevents: Path traversal attacks (CVE-2025-53110)
+## How to Reference MSSS
 
-### MCP-EXEC-01 — No Shell Execution (L1)
-> MCP servers MUST NOT use shell invocation with user-controlled input. Use parameterized execution instead.
+When referencing MSSS requirements, use the format:
 
-Prevents: Command injection (CVE-2025-61492, CVE-2025-5277)
+```
+MSSS-v0.1-{CONTROL-ID}
+```
 
-### MCP-AUTHZ-01 — OAuth Token Delegation (L2)
-> MCP servers exposed via HTTP/WebSocket MUST implement per-user authentication using OAuth 2.1, JWT, or equivalent.
+For example:
+- `MSSS-v0.1-MCP-FS-01` (Path allowlisting requirement)
+- `MSSS-v0.1-MCP-EXEC-01` (No shell execution requirement)
 
-Prevents: Shared credentials, cross-user data leakage
-
-## Roadmap
-
-### v0.1 (Current - Community Review)
-- 23 core controls across 8 domains
-- 3 verification levels
-- Deployment profiles and threat model
-- JSON reporting schemas
-
-### v0.2 (Planned - Q2 2026)
-- Community feedback integration
-- Additional controls based on new incidents
-- Tool-specific guidance (filesystem, database, cloud API tools)
-- Sample assessment reports
-
-### v1.0 (Target - Q3 2026)
-- Stable specification
-- Official certification program design
-- Assessor training materials
-- Automated scanning tool reference implementation
-
-## Contributing
-
-We welcome contributions! See [governance/contributing.md](governance/contributing.md) for:
-- How to propose new controls
-- Documentation improvements
-- Translation efforts
-- Reporting issues
-
-## Community
-
-- **Issues**: Report bugs, suggest improvements
-- **Discussions**: Ask questions, share experiences
-- **Pull Requests**: Submit changes (see contributing guide)
-
-## Related Standards and Frameworks
-
-MSSS aligns with and references:
-- **OWASP MCP Top 10** (2025): High-level risk categories
-- **OWASP ASVS**: Application Security Verification Standard
-- **CWE**: Common Weakness Enumeration
-- **NIST Cybersecurity Framework**: Informative references
+This format ensures clarity across versions and prevents ambiguity in compliance documentation.
 
 ## Translations
 
-The English version is authoritative. Translations are welcomed and tracked in `/i18n/`.
+MSSS maintains English as the authoritative language. Community translations expand accessibility:
 
-**Available**: English  
-**Planned**: Spanish, Portuguese (BR), French, German, Chinese (Simplified), Japanese
+| Language | Status | Contributors |
+|----------|--------|--------------|
+| English | ✅ Complete | Core Team |
+| Spanish | 🔄 Planned | - |
+| Portuguese (BR) | 🔄 Planned | - |
+| French | 🔄 Planned | - |
+| German | 🔄 Planned | - |
+| Chinese (Simplified) | 🔄 Planned | - |
+| Japanese | 🔄 Planned | - |
 
-See [i18n/README.md](i18n/README.md) for translation guidelines.
+See [translation guidelines](v0.1/i18n/README.md) to contribute.
 
-## Citing MSSS
+## Contributing
 
-```bibtex
-@techreport{msss2026,
-  title = {MCP Server Security Standard (MSSS)},
-  author = {{MSSS Community}},
-  year = {2026},
-  version = {0.1.0},
-  url = {https://github.com/YOUR-ORG/mcp-security-standard},
-  note = {Draft for community review}
-}
-```
+MSSS thrives on community contributions. We welcome:
+
+- 🐛 **Bug Reports** - Identify errors or ambiguities
+- 💡 **Feature Requests** - Propose new controls or improvements
+- 📝 **Documentation** - Enhance clarity and examples
+- 🌍 **Translations** - Expand language accessibility
+- 🔍 **Security Research** - Share vulnerability findings
+
+See [CONTRIBUTING.md](v0.1/governance/contributing.md) for guidelines.
+
+## Related Projects
+
+MSSS complements existing security frameworks:
+
+- [OWASP MCP Top 10](https://owasp.org/www-project-mcp-top-10/) - Risk categories for MCP systems
+- [OWASP ASVS](https://owasp.org/www-project-application-security-verification-standard/) - Application security verification
+- [CWE](https://cwe.mitre.org/) - Common weakness enumeration
+- [NIST Cybersecurity Framework](https://www.nist.gov/cyberframework) - Risk management guidance
+
+## Roadmap
+
+### Version 0.1 (Current)
+- ✅ Initial 23 controls
+- ✅ 3 verification levels
+- ✅ 6 deployment profiles
+- ✅ JSON reporting schemas
+
+### Version 0.2 (Q2 2026)
+- 🔄 Community feedback integration
+- 🔄 Additional controls from emerging threats
+- 🔄 Tool-specific implementation guidance
+- 🔄 Reference assessment reports
+
+### Version 1.0 (Q3 2026)
+- 📋 Stable specification
+- 📋 Certification program framework
+- 📋 Automated verification tools
+- 📋 Training materials
 
 ## License
 
-- **Standard text** (`/standard`, `/controls`, `/governance`): [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)
-- **JSON schemas** (`/reporting`): [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0)
-- **Repository code**: [MIT](https://opensource.org/licenses/MIT)
+MSSS uses a multi-license approach for maximum compatibility:
 
-See [governance/trademark-and-certification-policy.md](governance/trademark-and-certification-policy.md) for details.
-
-## Disclaimer
-
-This is v0.1 - a **draft** standard for community review. Requirements may change based on feedback. It is not yet suitable for formal certification claims.
-
-Organizations using this standard do so at their own discretion. The maintainers provide no warranties or guarantees.
+| Component | License | Usage |
+|-----------|---------|-------|
+| Standard Text | [CC BY-SA 4.0][cc-by-sa] | Share and adapt with attribution |
+| JSON Schemas | [Apache 2.0](LICENSE-APACHE) | Use in commercial tools |
+| Repository Code | [MIT](LICENSE-MIT) | Maximum flexibility |
 
 ## Acknowledgments
 
-This standard draws from:
-- OWASP MCP Top 10 community contributors
-- Security researchers who disclosed MCP vulnerabilities
-- Academic papers on MCP security (Hou et al., MCPLIB, and others)
-- Incident reports from Cymulate, Kaspersky, Trail of Bits, Snyk, and others
+MSSS builds upon the work of security researchers, incident responders, and the MCP community:
+
+- CVE researchers (Cymulate, Kaspersky, Trail of Bits, Snyk)
+- OWASP MCP Top 10 contributors
+- Academic researchers (Hou et al., MCPLIB team)
+- Early adopters providing feedback
 
 ## Contact
 
-- **Issues**: https://github.com/YOUR-ORG/mcp-security-standard/issues
-- **Discussions**: https://github.com/YOUR-ORG/mcp-security-standard/discussions
-- **Email**: (To be established)
+- 📬 **Issues**: [GitHub Issues](https://github.com/mcp-security-standard/mcp-server-security-standard/issues)
+- 💬 **Discussions**: [GitHub Discussions](https://github.com/mcp-security-standard/mcp-server-security-standard/discussions)
+- 📧 **Security**: security@mcp-security-standard.org (Coming Soon)
 
 ---
 
-**Built with** [Claude Code](https://claude.ai/code) **via** [Happy](https://happy.engineering)
+**The MCP Server Security Standard is an open community project. Neither the contributors, nor their employers, nor any other party involved in creating, producing, or delivering MSSS shall be liable for any damages arising from use of this standard.**
+
+[cc-by-sa]: http://creativecommons.org/licenses/by-sa/4.0/
+[cc-by-sa-shield]: https://img.shields.io/badge/License-CC%20BY--SA%204.0-lightgrey.svg

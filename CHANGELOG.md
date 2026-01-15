@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- Reorganized repository structure with versioned directories (v0.1/)
+- Enhanced README following OWASP ASVS professional format
+- Added badges and improved visual presentation
+
 ### Planned for v0.2
 - Community feedback integration
 - Additional controls based on emerging threats
@@ -141,8 +146,3 @@ Future releases will follow this structure:
 **Contributors**: MSSS v0.1 was developed through analysis of community research and security incidents. Individual contributors will be recognized as they engage with the project.
 
 ---
-
-Generated with [Claude Code](https://claude.ai/code) via [Happy](https://happy.engineering)
-
-Co-Authored-By: Claude <noreply@anthropic.com>
-Co-Authored-By: Happy <yesreply@happy.engineering>
