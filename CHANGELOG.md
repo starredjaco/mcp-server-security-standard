@@ -9,8 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - Reorganized repository structure with versioned directories (v0.1/)
-- Enhanced README following OWASP ASVS professional format
+- Enhanced README with strong community collaboration call-to-action
 - Added badges and improved visual presentation
+- Clarified control completion status (12 complete, 11 draft)
 
 ### Planned for v0.2
 - Community feedback integration
