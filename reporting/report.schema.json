@@ -1,0 +1,135 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mcp-security-standard.org/schemas/report.json",
+  "title": "MSSS Assessment Report",
+  "description": "Complete assessment report for an MCP server evaluation against MSSS controls",
+  "type": "object",
+  "required": ["report_version", "metadata", "summary", "results"],
+  
+  "properties": {
+    "report_version": {
+      "type": "string",
+      "const": "1.0",
+      "description": "Version of this report schema"
+    },
+    
+    "metadata": {
+      "$ref": "definitions.schema.json#/$defs/metadata",
+      "description": "Assessment metadata and context"
+    },
+    
+    "summary": {
+      "$ref": "definitions.schema.json#/$defs/summary",
+      "description": "High-level summary of assessment results"
+    },
+    
+    "results": {
+      "type": "array",
+      "items": {
+        "$ref": "definitions.schema.json#/$defs/control_result"
+      },
+      "description": "Detailed results for each evaluated control",
+      "minItems": 1
+    },
+    
+    "recommendations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["priority", "title", "description"],
+        "properties": {
+          "priority": {
+            "$ref": "definitions.schema.json#/$defs/severity",
+            "description": "Urgency of this recommendation"
+          },
+          "title": {
+            "type": "string",
+            "description": "Short title for the recommendation"
+          },
+          "description": {
+            "type": "string",
+            "description": "Detailed recommendation text"
+          },
+          "related_controls": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Control IDs that this recommendation addresses"
+          },
+          "effort_estimate": {
+            "type": "string",
+            "enum": ["low", "medium", "high"],
+            "description": "Estimated effort to implement"
+          }
+        }
+      },
+      "description": "Actionable recommendations for improving security posture"
+    },
+    
+    "attestation": {
+      "type": "object",
+      "properties": {
+        "statement": {
+          "type": "string",
+          "description": "Formal attestation text (e.g., 'I certify that this assessment was conducted in accordance with MSSS v0.1.0')"
+        },
+        "signatory": {
+          "type": "string",
+          "description": "Name of person attesting to the report"
+        },
+        "signature": {
+          "type": "string",
+          "description": "Digital signature or hash of the report"
+        },
+        "date": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Date of attestation"
+        }
+      },
+      "description": "Optional attestation for formal audits"
+    },
+    
+    "appendices": {
+      "type": "object",
+      "properties": {
+        "methodology": {
+          "type": "string",
+          "description": "Detailed description of assessment methodology"
+        },
+        "tools_used": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "version": {
+                "type": "string"
+              },
+              "purpose": {
+                "type": "string"
+              }
+            }
+          },
+          "description": "Tools used during assessment"
+        },
+        "limitations": {
+          "type": "string",
+          "description": "Known limitations of this assessment"
+        },
+        "references": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uri"
+          },
+          "description": "External references consulted"
+        }
+      },
+      "description": "Additional supporting information"
+    }
+  }
+}

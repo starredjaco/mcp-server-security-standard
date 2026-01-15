@@ -1,0 +1,45 @@
+{
+  "authoritative": "en",
+  "supported": ["en"],
+  "planned": ["es", "pt-BR", "fr", "de", "zh-CN", "ja"],
+  "translation_status": {
+    "en": {
+      "name": "English",
+      "completion": 100,
+      "last_updated": "2026-01-15",
+      "maintainers": ["MSSS Core Team"]
+    }
+  },
+  "future_languages": {
+    "es": {
+      "name": "Spanish",
+      "priority": "high",
+      "volunteers_needed": true
+    },
+    "pt-BR": {
+      "name": "Portuguese (Brazil)",
+      "priority": "high",
+      "volunteers_needed": true
+    },
+    "fr": {
+      "name": "French",
+      "priority": "medium",
+      "volunteers_needed": true
+    },
+    "de": {
+      "name": "German",
+      "priority": "medium",
+      "volunteers_needed": true
+    },
+    "zh-CN": {
+      "name": "Simplified Chinese",
+      "priority": "high",
+      "volunteers_needed": true
+    },
+    "ja": {
+      "name": "Japanese",
+      "priority": "medium",
+      "volunteers_needed": true
+    }
+  }
+}

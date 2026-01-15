@@ -1,0 +1,332 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mcp-security-standard.org/schemas/definitions.json",
+  "title": "MSSS Common Definitions",
+  "description": "Shared type definitions for MCP Server Security Standard reporting",
+  
+  "$defs": {
+    "status": {
+      "type": "string",
+      "enum": ["PASS", "FAIL", "NOT_APPLICABLE", "MANUAL_REVIEW"],
+      "description": "Control evaluation status"
+    },
+    
+    "level": {
+      "type": "string",
+      "enum": ["L1", "L2", "L3"],
+      "description": "MSSS verification level"
+    },
+    
+    "domain": {
+      "type": "string",
+      "enum": ["FS", "EXEC", "NET", "AUTHZ", "INPUT", "LOG", "SUPPLY", "DEPLOY"],
+      "description": "Security domain category"
+    },
+    
+    "severity": {
+      "type": "string",
+      "enum": ["CRITICAL", "HIGH", "MEDIUM", "LOW", "INFO"],
+      "description": "Severity rating for findings"
+    },
+    
+    "evidence_type": {
+      "type": "string",
+      "enum": ["code", "configuration", "artifact", "observation", "documentation", "test_result"],
+      "description": "Type of evidence provided"
+    },
+    
+    "transport": {
+      "type": "string",
+      "enum": ["stdio", "http", "https", "websocket", "custom"],
+      "description": "MCP transport mechanism"
+    },
+    
+    "evidence_item": {
+      "type": "object",
+      "required": ["type", "description"],
+      "properties": {
+        "type": {
+          "$ref": "#/$defs/evidence_type"
+        },
+        "description": {
+          "type": "string",
+          "description": "Brief description of the evidence"
+        },
+        "location": {
+          "type": "string",
+          "description": "File path, line number, or URL where evidence was found"
+        },
+        "content": {
+          "type": "string",
+          "description": "Excerpt or sample of the evidence (e.g., code snippet, config value)"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When this evidence was collected (ISO 8601)"
+        }
+      }
+    },
+    
+    "control_result": {
+      "type": "object",
+      "required": ["control_id", "status", "level", "domain"],
+      "properties": {
+        "control_id": {
+          "type": "string",
+          "pattern": "^MCP-(FS|EXEC|NET|AUTHZ|INPUT|LOG|SUPPLY|DEPLOY)-\\d{2}-[a-z-]+$",
+          "description": "Unique control identifier (e.g., MCP-FS-01-path-allowlisting)",
+          "examples": ["MCP-FS-01-path-allowlisting", "MCP-EXEC-01-no-shell-execution"]
+        },
+        "title": {
+          "type": "string",
+          "description": "Human-readable control title"
+        },
+        "level": {
+          "$ref": "#/$defs/level"
+        },
+        "domain": {
+          "$ref": "#/$defs/domain"
+        },
+        "status": {
+          "$ref": "#/$defs/status"
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/evidence_item"
+          },
+          "description": "Evidence supporting this control evaluation"
+        },
+        "justification": {
+          "type": "string",
+          "description": "Explanation for status (required for NOT_APPLICABLE, MANUAL_REVIEW, or FAIL)"
+        },
+        "findings": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["severity", "description"],
+            "properties": {
+              "severity": {
+                "$ref": "#/$defs/severity"
+              },
+              "description": {
+                "type": "string",
+                "description": "Detailed finding description"
+              },
+              "location": {
+                "type": "string",
+                "description": "Where the issue was found"
+              },
+              "remediation": {
+                "type": "string",
+                "description": "Suggested fix or mitigation"
+              }
+            }
+          },
+          "description": "Specific issues found during evaluation (typically for FAIL or MANUAL_REVIEW)"
+        },
+        "compensating_controls": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "List of compensating controls (for NOT_APPLICABLE)"
+        },
+        "assessor_notes": {
+          "type": "string",
+          "description": "Additional notes from the assessor"
+        }
+      }
+    },
+    
+    "metadata": {
+      "type": "object",
+      "required": ["standard_version", "generated_at", "target"],
+      "properties": {
+        "standard_version": {
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$",
+          "description": "MSSS version used for evaluation (e.g., 0.1.0)",
+          "examples": ["0.1.0"]
+        },
+        "generated_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when report was generated (ISO 8601)"
+        },
+        "assessor": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "Name of person or organization conducting assessment"
+            },
+            "email": {
+              "type": "string",
+              "format": "email"
+            },
+            "role": {
+              "type": "string",
+              "enum": ["self-assessment", "internal-audit", "third-party-audit", "automated-scan"],
+              "description": "Type of assessment"
+            }
+          }
+        },
+        "target": {
+          "type": "object",
+          "required": ["type"],
+          "properties": {
+            "type": {
+              "type": "string",
+              "enum": ["repository", "container-image", "deployed-instance", "source-archive"],
+              "description": "What was assessed"
+            },
+            "identifier": {
+              "type": "string",
+              "description": "Repository URL, image tag, deployment ID, etc."
+            },
+            "version": {
+              "type": "string",
+              "description": "Version or commit hash of the assessed artifact"
+            },
+            "transport": {
+              "$ref": "#/$defs/transport"
+            },
+            "deployment_profile": {
+              "type": "string",
+              "description": "Which profile from profiles.md applies (e.g., 'Local Development', 'Internet-Facing API')"
+            }
+          }
+        },
+        "scope": {
+          "type": "object",
+          "properties": {
+            "included_controls": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Explicitly included control IDs (if not all)"
+            },
+            "excluded_controls": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Explicitly excluded control IDs with justification"
+            },
+            "target_level": {
+              "$ref": "#/$defs/level",
+              "description": "The level being evaluated"
+            }
+          }
+        }
+      }
+    },
+    
+    "summary": {
+      "type": "object",
+      "required": ["total_controls", "by_status", "achieved_level"],
+      "properties": {
+        "total_controls": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Total number of controls evaluated"
+        },
+        "by_status": {
+          "type": "object",
+          "properties": {
+            "pass": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "fail": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "not_applicable": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "manual_review": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "required": ["pass", "fail", "not_applicable", "manual_review"]
+        },
+        "by_domain": {
+          "type": "object",
+          "patternProperties": {
+            "^(FS|EXEC|NET|AUTHZ|INPUT|LOG|SUPPLY|DEPLOY)$": {
+              "type": "object",
+              "properties": {
+                "pass": {"type": "integer", "minimum": 0},
+                "fail": {"type": "integer", "minimum": 0},
+                "not_applicable": {"type": "integer", "minimum": 0},
+                "manual_review": {"type": "integer", "minimum": 0}
+              }
+            }
+          }
+        },
+        "by_level": {
+          "type": "object",
+          "properties": {
+            "L1": {
+              "type": "object",
+              "properties": {
+                "pass": {"type": "integer"},
+                "fail": {"type": "integer"},
+                "not_applicable": {"type": "integer"},
+                "manual_review": {"type": "integer"}
+              }
+            },
+            "L2": {
+              "type": "object",
+              "properties": {
+                "pass": {"type": "integer"},
+                "fail": {"type": "integer"},
+                "not_applicable": {"type": "integer"},
+                "manual_review": {"type": "integer"}
+              }
+            },
+            "L3": {
+              "type": "object",
+              "properties": {
+                "pass": {"type": "integer"},
+                "fail": {"type": "integer"},
+                "not_applicable": {"type": "integer"},
+                "manual_review": {"type": "integer"}
+              }
+            }
+          }
+        },
+        "achieved_level": {
+          "oneOf": [
+            {"$ref": "#/$defs/level"},
+            {"type": "null"}
+          ],
+          "description": "Highest level achieved (null if no level achieved)"
+        },
+        "pass_rate": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Percentage of applicable controls that passed"
+        },
+        "critical_findings": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Number of CRITICAL severity findings"
+        },
+        "high_findings": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Number of HIGH severity findings"
+        }
+      }
+    }
+  }
+}
