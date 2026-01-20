@@ -1,3 +1,8 @@
+---
+title: "MCP-DEPLOY-01 — Container Hardening (Non-Root, Capabilities)"
+weight: 81
+---
+
 # MCP-DEPLOY-01 — Container Hardening (Non-Root, Capabilities)
 
 **Level:** L2  

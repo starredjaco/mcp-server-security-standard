@@ -1,3 +1,8 @@
+---
+title: "MCP-NET-01 — URL Validation and SSRF Mitigation"
+weight: 31
+---
+
 # MCP-NET-01 — URL Validation and SSRF Mitigation
 
 **Level:** L1  

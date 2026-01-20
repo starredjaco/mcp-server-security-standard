@@ -1,3 +1,8 @@
+---
+title: "MCP-NET-02 — Egress Traffic Filtering"
+weight: 32
+---
+
 # MCP-NET-02 — Egress Traffic Filtering
 
 **Level:** L3

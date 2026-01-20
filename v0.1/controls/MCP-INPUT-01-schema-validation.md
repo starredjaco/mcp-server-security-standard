@@ -1,3 +1,8 @@
+---
+title: "MCP-INPUT-01 — JSON Schema Validation"
+weight: 51
+---
+
 # MCP-INPUT-01 — JSON Schema Validation
 
 **Level:** L1

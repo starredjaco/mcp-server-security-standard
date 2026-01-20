@@ -1,3 +1,8 @@
+---
+title: "MCP-FS-02 — Symlink Resolution Validation"
+weight: 12
+---
+
 # MCP-FS-02 — Symlink Resolution Validation
 
 **Level:** L1  

@@ -1,3 +1,8 @@
+---
+title: "MCP-INPUT-03 — Timeout Enforcement"
+weight: 53
+---
+
 # MCP-INPUT-03 — Timeout Enforcement
 
 **Level:** L2

@@ -1,3 +1,8 @@
+---
+title: "MCP-SUPPLY-01 — Package Integrity Verification"
+weight: 71
+---
+
 # MCP-SUPPLY-01 — Package Integrity Verification
 
 **Level:** L2  

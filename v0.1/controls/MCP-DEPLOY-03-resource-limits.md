@@ -1,3 +1,8 @@
+---
+title: "MCP-DEPLOY-03 — Resource Limits and Rate Limiting"
+weight: 83
+---
+
 # MCP-DEPLOY-03 — Resource Limits and Rate Limiting
 
 **Level:** L2

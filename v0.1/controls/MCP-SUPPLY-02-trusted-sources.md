@@ -1,3 +1,8 @@
+---
+title: "MCP-SUPPLY-02 — Trusted Package Sources and Registry Verification"
+weight: 72
+---
+
 # MCP-SUPPLY-02 — Trusted Package Sources and Registry Verification
 
 **Level:** L1

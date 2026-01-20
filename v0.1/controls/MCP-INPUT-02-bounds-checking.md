@@ -1,3 +1,8 @@
+---
+title: "MCP-INPUT-02 — Input Bounds Enforcement"
+weight: 52
+---
+
 # MCP-INPUT-02 — Input Bounds Enforcement
 
 **Level:** L2

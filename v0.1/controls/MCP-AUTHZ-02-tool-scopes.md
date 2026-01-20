@@ -1,3 +1,8 @@
+---
+title: "MCP-AUTHZ-02 — Per-Tool Scope Definition"
+weight: 42
+---
+
 # MCP-AUTHZ-02 — Per-Tool Scope Definition
 
 **Level:** L2

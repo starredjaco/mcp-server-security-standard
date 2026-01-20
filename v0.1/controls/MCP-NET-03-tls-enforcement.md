@@ -1,3 +1,8 @@
+---
+title: "MCP-NET-03 — TLS Enforcement for Remote Connections"
+weight: 33
+---
+
 # MCP-NET-03 — TLS Enforcement for Remote Connections
 
 **Level:** L2

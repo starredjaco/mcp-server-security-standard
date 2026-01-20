@@ -1,3 +1,8 @@
+---
+title: "MCP-FS-03 — Filesystem Sandboxing"
+weight: 13
+---
+
 # MCP-FS-03 — Filesystem Sandboxing
 
 **Level:** L2

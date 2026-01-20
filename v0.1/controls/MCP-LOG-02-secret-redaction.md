@@ -1,3 +1,8 @@
+---
+title: "MCP-LOG-02 — Secret Redaction in Logs"
+weight: 62
+---
+
 # MCP-LOG-02 — Secret Redaction in Logs
 
 **Level:** L1  

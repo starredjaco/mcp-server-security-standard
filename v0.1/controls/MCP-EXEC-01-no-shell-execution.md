@@ -1,3 +1,8 @@
+---
+title: "MCP-EXEC-01 — Prohibition of Shell Execution"
+weight: 21
+---
+
 # MCP-EXEC-01 — Prohibition of Shell Execution
 
 **Level:** L1  

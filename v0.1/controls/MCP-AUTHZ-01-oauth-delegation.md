@@ -1,3 +1,8 @@
+---
+title: "MCP-AUTHZ-01 — OAuth Token Delegation"
+weight: 41
+---
+
 # MCP-AUTHZ-01 — OAuth Token Delegation
 
 **Level:** L2  

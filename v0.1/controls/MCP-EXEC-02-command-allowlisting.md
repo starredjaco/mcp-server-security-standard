@@ -1,3 +1,8 @@
+---
+title: "MCP-EXEC-02 — Command Allowlisting"
+weight: 22
+---
+
 # MCP-EXEC-02 — Command Allowlisting
 
 **Level:** L2

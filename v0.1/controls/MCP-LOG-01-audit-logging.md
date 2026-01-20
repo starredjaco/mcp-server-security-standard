@@ -1,3 +1,8 @@
+---
+title: "MCP-LOG-01 — Comprehensive Audit Logging"
+weight: 61
+---
+
 # MCP-LOG-01 — Comprehensive Audit Logging
 
 **Level:** L2  

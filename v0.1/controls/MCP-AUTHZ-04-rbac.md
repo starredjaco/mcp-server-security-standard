@@ -1,3 +1,8 @@
+---
+title: "MCP-AUTHZ-04 — Resource-Based Access Control"
+weight: 44
+---
+
 # MCP-AUTHZ-04 — Resource-Based Access Control
 
 **Level:** L2

@@ -1,3 +1,8 @@
+---
+title: "MCP-AUTHZ-03 — Least Privilege Tool Design"
+weight: 43
+---
+
 # MCP-AUTHZ-03 — Least Privilege Tool Design
 
 **Level:** L2

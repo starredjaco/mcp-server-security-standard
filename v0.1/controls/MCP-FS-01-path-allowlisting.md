@@ -1,3 +1,8 @@
+---
+title: "MCP-FS-01 — Path Allowlisting and Canonical Resolution"
+weight: 11
+---
+
 # MCP-FS-01 — Path Allowlisting and Canonical Resolution
 
 **Level:** L1  
