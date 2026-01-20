@@ -5,7 +5,7 @@ weight: 3
 
 # MCP Security Standard — Compliance Levels
 
-**Version:** 1.0
+**Version:** 2.0
 **Status:** Official
 **Effective Date:** 2026-01-20
 **Last Updated:** 2026-01-20
@@ -16,14 +16,15 @@ weight: 3
 
 1. [Introduction](#introduction)
 2. [Philosophy and Design Rationale](#philosophy-and-design-rationale)
-3. [Level Definitions](#level-definitions)
-4. [Selection Criteria](#selection-criteria)
-5. [Control Distribution](#control-distribution)
-6. [Validation and Certification](#validation-and-certification)
-7. [Implementation Guidance](#implementation-guidance)
-8. [Mixed-Level Deployments](#mixed-level-deployments)
-9. [Level Comparison Matrix](#level-comparison-matrix)
-10. [References and Research](#references-and-research)
+3. [Why Four Levels](#why-four-levels)
+4. [Level Definitions](#level-definitions)
+5. [Selection Criteria](#selection-criteria)
+6. [Control Distribution](#control-distribution)
+7. [Validation and Certification](#validation-and-certification)
+8. [Implementation Guidance](#implementation-guidance)
+9. [Mixed-Level Deployments](#mixed-level-deployments)
+10. [Level Comparison Matrix](#level-comparison-matrix)
+11. [References and Research](#references-and-research)
 
 ---
 
@@ -31,7 +32,9 @@ weight: 3
 
 ### Purpose
 
-The MCP Security Standard (MSSS) defines three compliance levels to accommodate the diverse deployment contexts of Model Context Protocol (MCP) servers — from personal hobby projects to enterprise-critical infrastructure. This document establishes the framework for selecting, implementing, and validating compliance at each level.
+The MCP Security Standard (MSSS) defines **four compliance levels** to accommodate the diverse deployment contexts of Model Context Protocol (MCP) servers — from personal hobby projects to enterprise-critical infrastructure processing regulated data.
+
+This document establishes the framework for selecting, implementing, and validating compliance at each level.
 
 ### Scope
 
@@ -47,7 +50,7 @@ This framework explicitly does NOT:
 - Create a maturity progression model requiring advancement through levels
 - Suggest that lower levels are "incomplete" or "immature" security
 - Base levels solely on organization size or transaction volume
-- Require all MCP servers to eventually reach Level 3
+- Require all MCP servers to eventually reach Level 4
 
 ---
 
@@ -65,10 +68,11 @@ This framework explicitly does NOT:
 - **CIS Controls** Implementation Groups (IG1/IG2/IG3) for organization profiles
 - **OWASP ASVS** Verification Levels (L1/L2/L3) for application risk tiers
 - **FedRAMP** authorization levels (Low/Moderate/High) for impact categories
+- **NIST CSF** Implementation Tiers (Partial/Risk Informed/Repeatable/Adaptive)
 
 #### 2. Cumulative Control Distribution
 
-**Principle**: Each level builds upon the previous level's controls. Level 2 includes all Level 1 controls plus additional protections. Level 3 includes all Level 1 and 2 controls plus advanced hardening.
+**Principle**: Each level builds upon the previous level's controls. Level 2 includes all Level 1 controls plus additional protections. Level 3 includes all Level 1 and 2 controls plus more. Level 4 includes all controls.
 
 **Rationale**:
 - Ensures consistent baseline security across all deployments
@@ -76,12 +80,13 @@ This framework explicitly does NOT:
 - Prevents dangerous gaps where critical controls are skipped
 - Facilitates upgrades when deployment context changes
 
-**Distribution Pattern**: Based on OWASP ASVS proven model:
-- **Level 1**: 25-30% of total controls (essential baseline)
-- **Level 2**: +55-60% additional controls (cumulative 80-85%)
-- **Level 3**: +15-20% additional controls (cumulative 100%)
+**Distribution Pattern**: Balanced 25-50-75-100 distribution:
+- **Level 1**: 25% of total controls (essential baseline)
+- **Level 2**: 50% of total controls (development/team)
+- **Level 3**: 75% of total controls (production/enterprise)
+- **Level 4**: 100% of total controls (maximum assurance)
 
-This **20-50-30 split** balances practicality for simple deployments with comprehensive coverage for critical systems.
+This **gradual progression** ensures each level-up adds approximately equal effort (~6 controls per level).
 
 #### 3. Complete Security Postures
 
@@ -109,28 +114,80 @@ This **20-50-30 split** balances practicality for simple deployments with compre
 
 #### 5. Validation Rigor Independence
 
-**Principle**: Control requirements are separate from validation rigor. All Level 2 servers implement the same controls, but validation may differ (self-assessment vs. third-party audit).
+**Principle**: Control requirements are separate from validation rigor. All Level 2 servers implement the same controls, but validation may differ (self-assessment vs. internal audit).
 
 **Rationale**: Inspired by PCI DSS, which requires all merchants to implement the same 12 requirements but varies audit rigor by transaction volume. This keeps costs manageable for small deployments while ensuring credibility for critical ones.
 
 **Application**:
 - Level 1: Self-assessment questionnaire (SAQ) acceptable
-- Level 2: Internal audit + automated testing recommended
-- Level 3: Third-party penetration testing required
+- Level 2: Self-assessment + automated scanning
+- Level 3: Internal security audit required
+- Level 4: Third-party penetration testing required
+
+---
+
+## Why Four Levels
+
+### Problem with Three Levels
+
+The original 3-level system had significant granularity issues:
+
+| Transition | Controls Added | Percentage Jump |
+|------------|---------------|-----------------|
+| L1 → L2 | 7 → 21 | **200% increase** |
+| L2 → L3 | 21 → 24 | **14% increase** |
+
+This created two problems:
+1. **L1 → L2 gap too large**: Teams faced a daunting jump from 7 to 21 controls
+2. **L2 → L3 gap too small**: Only 3 additional controls didn't justify a separate level
+
+### Industry Precedents for Four Levels
+
+Several major security frameworks use four levels:
+
+| Framework | Levels | Distribution Logic |
+|-----------|--------|-------------------|
+| **NIST CSF** | 4 Tiers | Partial → Risk Informed → Repeatable → Adaptive |
+| **PCI DSS** | 4 Merchant Levels | Based on transaction volume |
+| **ISO 27001** | 4 Maturity Levels | Ad-hoc → Defined → Managed → Optimized |
+| **COBIT** | 4 Process Levels | Initial → Managed → Established → Predictable |
+
+### Benefits of Four-Level System
+
+| Aspect | 3 Levels | 4 Levels |
+|--------|----------|----------|
+| Level jumps | 200%, 14% | 100%, 50%, 33% |
+| Granularity | Poor | Good |
+| Implementation effort | Uneven | Balanced |
+| Industry alignment | OWASP ASVS | NIST CSF, PCI DSS |
+
+### Distribution Comparison
+
+| Level | 3-Level System | 4-Level System |
+|-------|---------------|----------------|
+| L1 | 7 controls (29%) | 6 controls (25%) |
+| L2 | 21 controls (88%) | 12 controls (50%) |
+| L3 | 24 controls (100%) | 18 controls (75%) |
+| L4 | — | 24 controls (100%) |
+
+The 4-level system provides a smoother progression:
+- Each level adds ~6 controls
+- Each jump represents ~25% of total controls
+- Teams can incrementally improve without overwhelming changes
 
 ---
 
 ## Level Definitions
 
-### Level 1: Foundational Baseline
+### Level 1: Essential
 
-**Official Name**: Level 1 (L1) — Foundational Baseline
-**Informal Name**: Personal / Development
+**Official Name**: Level 1 (L1) — Essential
+**Informal Name**: Personal / Hobby
 
 #### Target Audience
 - Individual developers building personal MCP tools
 - Hobbyists and open-source contributors
-- Development and testing environments
+- Local development and testing environments
 - Internal prototypes and proof-of-concepts
 - Educational and research projects
 
@@ -156,22 +213,23 @@ This **20-50-30 split** balances practicality for simple deployments with compre
 - **Not modeled**: Targeted attacks by sophisticated adversaries
 
 #### Control Count
-**7 controls** (~29% of total 24 controls)
+**6 controls** (25% of total 24 controls)
 
-#### Key Controls
-- MCP-FS-01: Path Allowlisting (prevents directory traversal)
-- MCP-EXEC-01: No Shell Execution (prevents command injection)
-- MCP-NET-01: URL Validation (prevents SSRF)
-- MCP-INPUT-01: Schema Validation (prevents injection attacks)
-- MCP-LOG-02: Secret Redaction (prevents credential leaks)
-- MCP-SUPPLY-02: Trusted Package Sources (prevents supply chain attacks)
-- MCP-FS-02: Symlink Resolution (prevents symlink bypass)
+#### Controls Included
+| Control | Description |
+|---------|-------------|
+| MCP-EXEC-01 | Prohibition of Shell Execution (prevents RCE) |
+| MCP-FS-01 | Path Allowlisting and Canonical Resolution (prevents traversal) |
+| MCP-FS-02 | Symlink Resolution Validation (closes bypass) |
+| MCP-NET-01 | URL Validation and SSRF Mitigation (prevents SSRF) |
+| MCP-INPUT-01 | JSON Schema Validation (prevents injection) |
+| MCP-LOG-02 | Secret Redaction in Logs (prevents credential leaks) |
 
 #### Validation Method
 - **Self-Assessment Questionnaire (SAQ)**: Structured checklist format
 - **Automated Tooling**: Static analysis and configuration scanning
 - **Peer Review**: Optional community code review
-- **Timeline**: Can be completed in 1-4 hours for small projects
+- **Timeline**: Can be completed in **1-2 hours** for small projects
 
 #### Certification
 - **Badge**: "MSSS Level 1 Compliant" (self-certified)
@@ -180,17 +238,76 @@ This **20-50-30 split** balances practicality for simple deployments with compre
 
 ---
 
-### Level 2: Standard Protection
+### Level 2: Development
 
-**Official Name**: Level 2 (L2) — Standard Protection
-**Informal Name**: Team / Enterprise
+**Official Name**: Level 2 (L2) — Development
+**Informal Name**: Internal / Team
 
 #### Target Audience
-- Internal team collaboration servers
-- Departmental and business unit applications
-- SaaS products serving customers
-- SME and mid-market enterprise deployments
-- Servers accessing business-critical data sources
+- Development teams building internal tools
+- Internal productivity applications
+- Early-stage startups with small teams
+- Pre-production staging environments
+- Open-source projects with contributors
+
+#### Data Profile
+- Internal business data (non-critical)
+- Test data that may include sanitized PII
+- Source code and development artifacts
+- Configuration and secrets (in development environments)
+
+#### Impact if Compromised
+- **Confidentiality**: Exposure of source code or internal processes
+- **Integrity**: Corruption of development artifacts
+- **Availability**: Development team productivity loss
+
+**Concrete Examples**:
+- Compromised MCP server exposes internal documentation → Limited business impact
+- Attacker modifies test data → Rework required, no production impact
+- DoS attack on development server → Team delays, no customer impact
+
+#### Threat Model
+- **Primary**: Opportunistic attacks + insider mistakes
+- **Secondary**: Semi-targeted attacks (disgruntled employees, curious researchers)
+- **Not modeled**: Advanced persistent threats
+
+#### Control Count
+**12 controls** (50% of total 24 controls, including all L1 controls)
+
+#### Additional Controls (beyond L1)
+| Control | Description |
+|---------|-------------|
+| MCP-SUPPLY-02 | Trusted Package Sources and Registry Verification |
+| MCP-INPUT-02 | Input Bounds Enforcement (DoS prevention) |
+| MCP-INPUT-03 | Timeout Enforcement (resource exhaustion) |
+| MCP-NET-03 | TLS Enforcement for Remote Connections |
+| MCP-EXEC-02 | Command Allowlisting (restrict binary execution) |
+| MCP-EXEC-03 | Argument Separator Usage (prevent injection) |
+
+#### Validation Method
+- **Self-Assessment**: Structured checklist with evidence
+- **Automated Scanning**: SAST tools, dependency scanning
+- **Peer Review**: Recommended for security-critical components
+- **Timeline**: **4-8 hours** for initial assessment
+
+#### Certification
+- **Badge**: "MSSS Level 2 Compliant" (self-certified with evidence)
+- **No External Audit Required** (recommended)
+- **Renewal**: Annual self-assessment
+
+---
+
+### Level 3: Production
+
+**Official Name**: Level 3 (L3) — Production
+**Informal Name**: Enterprise / Customer-Facing
+
+#### Target Audience
+- Customer-facing SaaS applications
+- Multi-tenant enterprise deployments
+- Business-critical internal applications
+- Production environments with real customer data
+- Servers accessing business-confidential information
 
 #### Data Profile
 - Business-confidential information (financial data, strategic plans)
@@ -207,49 +324,43 @@ This **20-50-30 split** balances practicality for simple deployments with compre
 **Concrete Examples**:
 - Compromised MCP server exfiltrates customer email addresses → GDPR breach notification, reputational damage, potential fines
 - Attacker modifies database records → Data integrity issues, operational disruption, customer trust erosion
-- Command injection allows lateral movement → Full system compromise, potential ransomware deployment
+- Command injection allows lateral movement → System compromise potential
 
 #### Threat Model
-- **Primary**: Targeted attacks by moderately skilled attackers (cybercriminals, disgruntled insiders)
-- **Secondary**: Sophisticated automated attacks (credential stuffing, known CVE exploitation)
-- **Not modeled**: Nation-state APTs with multi-year persistence campaigns
+- **Primary**: Targeted attacks by moderately skilled attackers (cybercriminals, insiders)
+- **Secondary**: Sophisticated automated attacks (credential stuffing, CVE exploitation)
+- **Not modeled**: Nation-state APTs with multi-year campaigns
 
 #### Control Count
-**21 controls** (~88% of total 24 controls, including all L1 controls)
+**18 controls** (75% of total 24 controls, including all L1 and L2 controls)
 
-#### Key Additional Controls (beyond L1)
-- MCP-AUTHZ-01: OAuth Token Delegation (per-user authentication)
-- MCP-AUTHZ-02: Per-Tool Scope Definition (granular permissions)
-- MCP-AUTHZ-03: Least Privilege Tool Design (principle of least privilege)
-- MCP-AUTHZ-04: Resource-Based Access Control (RBAC with deny rules)
-- MCP-LOG-01: Comprehensive Audit Logging (forensic capability)
-- MCP-DEPLOY-01: Container Hardening (non-root, dropped capabilities)
-- MCP-NET-03: TLS Enforcement (encrypted transport)
-- MCP-INPUT-02: Input Bounds Enforcement (DoS prevention)
-- MCP-INPUT-03: Timeout Enforcement (resource exhaustion prevention)
-- MCP-SUPPLY-01: Package Integrity Verification (dependency locking)
-- MCP-EXEC-02: Command Allowlisting (restrict binary execution)
-- MCP-EXEC-03: Argument Separator Usage (prevent argument injection)
-- MCP-FS-03: Filesystem Sandboxing (OS-level isolation)
-- MCP-DEPLOY-03: Resource Limits and Rate Limiting (DoS mitigation)
+#### Additional Controls (beyond L2)
+| Control | Description |
+|---------|-------------|
+| MCP-AUTHZ-01 | OAuth Token Delegation (per-user authentication) |
+| MCP-AUTHZ-02 | Per-Tool Scope Definition (granular permissions) |
+| MCP-AUTHZ-03 | Least Privilege Tool Design (principle of least privilege) |
+| MCP-AUTHZ-04 | Resource-Based Access Control (RBAC with deny rules) |
+| MCP-LOG-01 | Comprehensive Audit Logging (forensic capability) |
+| MCP-DEPLOY-01 | Container Hardening (non-root, dropped capabilities) |
 
 #### Validation Method
 - **Internal Security Audit**: Performed by security team or qualified personnel
 - **Automated Scanning**: SAST/DAST tools, container vulnerability scanning
-- **Penetration Testing**: Optional but recommended for internet-facing servers
-- **Timeline**: 1-2 weeks for initial assessment, 2-4 hours for annual recertification
+- **Penetration Testing**: Recommended for internet-facing servers
+- **Timeline**: **1-2 weeks** for initial assessment, **2-4 hours** for annual recertification
 
 #### Certification
-- **Badge**: "MSSS Level 2 Certified" (requires documented evidence)
+- **Badge**: "MSSS Level 3 Certified" (requires documented evidence)
 - **Auditor**: Internal security team or qualified third party
 - **Renewal**: Annual audit with continuous monitoring recommended
 
 ---
 
-### Level 3: Maximum Assurance
+### Level 4: Maximum Assurance
 
-**Official Name**: Level 3 (L3) — Maximum Assurance
-**Informal Name**: Critical / Public
+**Official Name**: Level 4 (L4) — Maximum Assurance
+**Informal Name**: Critical / Regulated
 
 #### Target Audience
 - Public-facing MCP gateways and API services
@@ -274,7 +385,7 @@ This **20-50-30 split** balances practicality for simple deployments with compre
 **Concrete Examples**:
 - Hospital MCP gateway compromised → PHI of 100,000 patients exposed, HIPAA penalties, class-action lawsuits, loss of accreditation
 - Financial MCP server breached → Manipulation of transaction records, SEC investigation, criminal charges
-- Government MCP tool exploited → Exfiltration of classified data, national security implications, Congressional inquiry
+- Government MCP tool exploited → Exfiltration of classified data, national security implications
 
 #### Threat Model
 - **Primary**: Advanced Persistent Threats (nation-states, organized cybercrime)
@@ -284,10 +395,15 @@ This **20-50-30 split** balances practicality for simple deployments with compre
 #### Control Count
 **24 controls** (100% of all MSSS controls)
 
-#### Key Additional Controls (beyond L2)
-- MCP-NET-02: Egress Traffic Filtering (comprehensive allowlisting, DNS control, rate limiting)
-- MCP-DEPLOY-02: System Call Filtering (seccomp/AppArmor enforcement)
-- MCP-DEPLOY-04: Runtime Integrity Monitoring (future control, TBD)
+#### Additional Controls (beyond L3)
+| Control | Description |
+|---------|-------------|
+| MCP-FS-03 | Filesystem Sandboxing (OS-level isolation) |
+| MCP-SUPPLY-01 | Package Integrity Verification (cryptographic hashes) |
+| MCP-DEPLOY-03 | Resource Limits and Rate Limiting (DoS mitigation) |
+| MCP-NET-02 | Egress Traffic Filtering (data exfiltration prevention) |
+| MCP-DEPLOY-02 | System Call Filtering (seccomp/AppArmor) |
+| MCP-DEPLOY-04 | Runtime Integrity Monitoring (anomaly detection) |
 
 #### Additional Requirements
 - **Multi-Factor Authentication (MFA)**: Mandatory for administrative access
@@ -300,10 +416,10 @@ This **20-50-30 split** balances practicality for simple deployments with compre
 - **Third-Party Penetration Testing**: Annual full-scope assessment by qualified firm
 - **Continuous Monitoring**: SIEM, EDR, and behavioral analytics
 - **Compliance Audit**: Industry-specific (HIPAA, PCI DSS, FedRAMP, SOC 2)
-- **Timeline**: 4-8 weeks initial assessment, ongoing continuous monitoring
+- **Timeline**: **4-8 weeks** initial assessment, ongoing continuous monitoring
 
 #### Certification
-- **Badge**: "MSSS Level 3 Certified" (requires independent verification)
+- **Badge**: "MSSS Level 4 Certified" (requires independent verification)
 - **Auditor**: Qualified third-party security assessor (QTSA)
 - **Renewal**: Annual penetration test + quarterly vulnerability scans
 
@@ -320,54 +436,63 @@ Organizations should select their target compliance level using the following de
 **Who uses or accesses this MCP server?**
 
 - **Just me (individual developer)** → Consider Level 1
-- **My team or department (2-50 users)** → Consider Level 2
-- **My organization (50+ users) or external customers** → Consider Level 3
+- **My team (2-10 users)** → Consider Level 2
+- **My organization or external customers** → Consider Level 3
+- **Public users or regulated industry** → Consider Level 4
 
 #### Question 2: Data Sensitivity
 
 **What is the most sensitive data this MCP server can access?**
 
 - **Public information or synthetic test data** → Consider Level 1
-- **Business-confidential or PII (GDPR/CCPA scope)** → Consider Level 2
-- **Regulated data (PHI, PCI, classified)** → **Require Level 3**
+- **Internal business data (non-critical)** → Consider Level 2
+- **Business-confidential or PII (GDPR/CCPA scope)** → Consider Level 3
+- **Regulated data (PHI, PCI, classified)** → **Require Level 4**
 
 #### Question 3: Impact Analysis
 
 **What is the worst-case impact if this MCP server is fully compromised?**
 
 - **Personal inconvenience, lost productivity** → Consider Level 1
-- **Business disruption, customer notification, reputational damage** → Consider Level 2
-- **Regulatory penalties, legal liability, safety risk, national security** → **Require Level 3**
+- **Development delays, internal rework** → Consider Level 2
+- **Business disruption, customer notification, reputational damage** → Consider Level 3
+- **Regulatory penalties, legal liability, safety risk** → **Require Level 4**
 
 #### Question 4: Threat Model
 
 **What threat actors are likely to target this deployment?**
 
 - **Opportunistic automated attacks (botnets, scanners)** → Consider Level 1
-- **Targeted attacks by moderately skilled adversaries** → Consider Level 2
-- **Advanced persistent threats, insider threats, nation-states** → **Require Level 3**
+- **Semi-targeted attacks (curious researchers, mistakes)** → Consider Level 2
+- **Targeted attacks by moderately skilled adversaries** → Consider Level 3
+- **Advanced persistent threats, insider threats, nation-states** → **Require Level 4**
 
 ### Decision Matrix
 
-| Criterion | Level 1 | Level 2 | Level 3 |
-|-----------|---------|---------|---------|
-| **Users** | Individual | Team / Department | Organization / Public |
-| **Data** | Public / Test | Business / PII | Regulated / Critical |
-| **Impact** | Inconvenience | Disruption / Breach | Severe Harm / Liability |
-| **Threats** | Opportunistic | Targeted | APT / Insider |
-| **Examples** | Personal tools, dev/test | Team servers, SaaS | Healthcare, finance, gov |
+| Criterion | Level 1 | Level 2 | Level 3 | Level 4 |
+|-----------|---------|---------|---------|---------|
+| **Users** | Individual | Team (2-10) | Organization / Customers | Public / Regulated |
+| **Data** | Public / Test | Internal | Business / PII | Regulated / Critical |
+| **Impact** | Inconvenience | Dev delays | Disruption / Breach | Severe Harm / Liability |
+| **Threats** | Opportunistic | Semi-targeted | Targeted | APT / Insider |
+| **Examples** | Personal tools | Dev servers | SaaS, team apps | Healthcare, finance, gov |
 
 ### Automatic Level Requirements
 
 Certain deployment contexts **automatically require** a minimum compliance level:
 
 #### Mandatory Level 2
+- Servers with multiple developers accessing shared resources
+- Pre-production environments mirroring production data structures
+- Open-source projects accepting external contributions
+
+#### Mandatory Level 3
 - Servers accessing customer PII (email addresses, names, phone numbers)
 - Multi-tenant systems with customer isolation requirements
 - Servers exposed to untrusted networks (even behind VPN)
 - Processing business-confidential data (financial records, strategic plans)
 
-#### Mandatory Level 3
+#### Mandatory Level 4
 - Healthcare applications accessing PHI (HIPAA requirement)
 - Payment processing systems (PCI DSS requirement)
 - Government/defense systems with classified or CUI data
@@ -390,87 +515,97 @@ Certain deployment contexts **automatically require** a minimum compliance level
 
 ### Overview
 
-The 24 MSSS controls are distributed across three levels using a **cumulative model** inspired by OWASP ASVS:
+The 24 MSSS controls are distributed across four levels using a **balanced cumulative model**:
 
-- **Level 1**: 7 controls (29%)
-- **Level 2**: +14 controls (59%, cumulative 88%)
-- **Level 3**: +3 controls (12%, cumulative 100%)
+- **Level 1**: 6 controls (25%)
+- **Level 2**: +6 controls (50%, cumulative 12)
+- **Level 3**: +6 controls (75%, cumulative 18)
+- **Level 4**: +6 controls (100%, cumulative 24)
 
 ### Distribution by Security Domain
 
-| Domain | L1 Controls | L2 Controls | L3 Controls | Total |
-|--------|-------------|-------------|-------------|-------|
-| **FS (Filesystem)** | 2 | +1 | 0 | 3 |
-| **EXEC (Execution)** | 1 | +2 | 0 | 3 |
-| **NET (Network)** | 1 | +1 | +1 | 3 |
-| **AUTHZ (Authorization)** | 0 | +4 | 0 | 4 |
-| **INPUT (Validation)** | 1 | +2 | 0 | 3 |
-| **LOG (Logging)** | 1 | +1 | 0 | 2 |
-| **SUPPLY (Supply Chain)** | 1 | +1 | 0 | 2 |
-| **DEPLOY (Deployment)** | 0 | +2 | +2 | 4 |
+| Domain | L1 | L2 | L3 | L4 | Total |
+|--------|:--:|:--:|:--:|:--:|:-----:|
+| **FS (Filesystem)** | 2 | 0 | 0 | +1 | 3 |
+| **EXEC (Execution)** | 1 | +2 | 0 | 0 | 3 |
+| **NET (Network)** | 1 | +1 | 0 | +1 | 3 |
+| **AUTHZ (Authorization)** | 0 | 0 | +4 | 0 | 4 |
+| **INPUT (Validation)** | 1 | +2 | 0 | 0 | 3 |
+| **LOG (Logging)** | 1 | 0 | +1 | 0 | 2 |
+| **SUPPLY (Supply Chain)** | 0 | +1 | 0 | +1 | 2 |
+| **DEPLOY (Deployment)** | 0 | 0 | +1 | +3 | 4 |
 
-### Level 1 Controls (7 total)
+### Level 1 Controls (6 total)
 
 These controls defend against the most common and severe vulnerabilities with minimal implementation complexity:
 
-1. **MCP-FS-01**: Path Allowlisting and Canonical Resolution
-2. **MCP-FS-02**: Symlink Resolution Validation
-3. **MCP-EXEC-01**: Prohibition of Shell Execution
+1. **MCP-EXEC-01**: Prohibition of Shell Execution
+2. **MCP-FS-01**: Path Allowlisting and Canonical Resolution
+3. **MCP-FS-02**: Symlink Resolution Validation
 4. **MCP-NET-01**: URL Validation and SSRF Mitigation
 5. **MCP-INPUT-01**: JSON Schema Validation
 6. **MCP-LOG-02**: Secret Redaction in Logs
-7. **MCP-SUPPLY-02**: Trusted Package Sources and Registry Verification
 
-**Rationale**: These 7 controls prevent:
-- Directory traversal (FS-01, FS-02)
+**Rationale**: These 6 controls prevent:
 - Command injection (EXEC-01)
+- Directory traversal (FS-01, FS-02)
 - Server-Side Request Forgery (NET-01)
 - Injection attacks and schema poisoning (INPUT-01)
 - Credential leakage (LOG-02)
-- Supply chain attacks (SUPPLY-02)
 
-Together, they address **CWE Top 25** vulnerabilities #1, #3, #8, #11, and #19.
+Together, they address **CWE Top 25** vulnerabilities #1, #3, #8, #11.
 
-### Level 2 Controls (+14 additional, 21 total)
+### Level 2 Controls (+6 additional, 12 total)
 
-Level 2 adds comprehensive authorization, audit logging, deployment hardening, and defense-in-depth:
+Level 2 adds input hardening, transport security, supply chain basics, and execution safety:
 
-8. **MCP-AUTHZ-01**: OAuth Token Delegation
-9. **MCP-AUTHZ-02**: Per-Tool Scope Definition
-10. **MCP-AUTHZ-03**: Least Privilege Tool Design
-11. **MCP-AUTHZ-04**: Resource-Based Access Control
-12. **MCP-LOG-01**: Comprehensive Audit Logging
-13. **MCP-NET-03**: TLS Enforcement for Remote Connections
-14. **MCP-INPUT-02**: Input Bounds Enforcement
-15. **MCP-INPUT-03**: Timeout Enforcement
-16. **MCP-SUPPLY-01**: Package Integrity Verification
-17. **MCP-EXEC-02**: Command Allowlisting
-18. **MCP-EXEC-03**: Argument Separator Usage
-19. **MCP-FS-03**: Filesystem Sandboxing
-20. **MCP-DEPLOY-01**: Container Hardening (Non-Root, Capabilities)
-21. **MCP-DEPLOY-03**: Resource Limits and Rate Limiting
+7. **MCP-SUPPLY-02**: Trusted Package Sources and Registry Verification
+8. **MCP-INPUT-02**: Input Bounds Enforcement
+9. **MCP-INPUT-03**: Timeout Enforcement
+10. **MCP-NET-03**: TLS Enforcement for Remote Connections
+11. **MCP-EXEC-02**: Command Allowlisting
+12. **MCP-EXEC-03**: Argument Separator Usage
+
+**Rationale**: These controls add:
+- Supply chain basic protection (SUPPLY-02)
+- DoS prevention (INPUT-02/03)
+- Transport encryption (NET-03)
+- Additional execution controls (EXEC-02/03)
+
+### Level 3 Controls (+6 additional, 18 total)
+
+Level 3 adds comprehensive authorization, audit logging, and container hardening:
+
+13. **MCP-AUTHZ-01**: OAuth Token Delegation
+14. **MCP-AUTHZ-02**: Per-Tool Scope Definition
+15. **MCP-AUTHZ-03**: Least Privilege Tool Design
+16. **MCP-AUTHZ-04**: Resource-Based Access Control
+17. **MCP-LOG-01**: Comprehensive Audit Logging
+18. **MCP-DEPLOY-01**: Container Hardening (Non-Root, Capabilities)
 
 **Rationale**: These controls add:
 - Per-user authentication and authorization (AUTHZ-01/02/03/04)
 - Forensic capabilities (LOG-01)
-- Transport security (NET-03)
-- DoS prevention (INPUT-02/03, DEPLOY-03)
-- Supply chain verification (SUPPLY-01)
-- Additional execution controls (EXEC-02/03)
-- OS-level sandboxing (FS-03, DEPLOY-01)
+- Container security baseline (DEPLOY-01)
 
-### Level 3 Controls (+3 additional, 24 total)
+### Level 4 Controls (+6 additional, 24 total)
 
-Level 3 adds maximum hardening for high-risk environments:
+Level 4 adds maximum hardening for high-risk environments:
 
+19. **MCP-FS-03**: Filesystem Sandboxing
+20. **MCP-SUPPLY-01**: Package Integrity Verification
+21. **MCP-DEPLOY-03**: Resource Limits and Rate Limiting
 22. **MCP-NET-02**: Egress Traffic Filtering
 23. **MCP-DEPLOY-02**: System Call Filtering (seccomp/AppArmor)
-24. **MCP-DEPLOY-04**: Runtime Integrity Monitoring (future)
+24. **MCP-DEPLOY-04**: Runtime Integrity Monitoring
 
 **Rationale**: These controls provide:
+- Complete filesystem isolation (FS-03)
+- Cryptographic supply chain verification (SUPPLY-01)
+- DoS mitigation at infrastructure level (DEPLOY-03)
 - Data exfiltration prevention (NET-02)
 - Kernel-level attack surface reduction (DEPLOY-02)
-- Anomaly detection and response (DEPLOY-04, future)
+- Anomaly detection and response (DEPLOY-04)
 
 ---
 
@@ -481,8 +616,9 @@ Level 3 adds maximum hardening for high-risk environments:
 | Level | Method | Frequency | Cost | Rigor |
 |-------|--------|-----------|------|-------|
 | **L1** | Self-Assessment Questionnaire (SAQ) | Annual | Free | Basic |
-| **L2** | Internal Audit + Automated Tools | Annual | Low-Moderate | Moderate |
-| **L3** | Third-Party Penetration Test | Annual | High | Comprehensive |
+| **L2** | Self-Assessment + Automated Tools | Annual | Low | Moderate |
+| **L3** | Internal Security Audit | Annual | Moderate | Comprehensive |
+| **L4** | Third-Party Penetration Test | Annual | High | Maximum |
 
 ### Level 1 Validation
 
@@ -510,19 +646,39 @@ validation_date: "2026-01-15"
 
 ### Level 2 Validation
 
+**Self-Assessment + Automated Scanning**
+
+- Structured self-assessment with documented evidence
+- Automated scanning requirements:
+  - SAST: Static analysis for security vulnerabilities
+  - SCA: Software composition analysis for dependencies
+- Evidence documentation required for each control
+- Peer review recommended for security-critical components
+
+**Automated Tools**:
+- SAST: Semgrep, Snyk Code, CodeQL
+- SCA: Dependabot, Snyk Open Source, npm audit
+
+**Certification Package**:
+- Self-assessment questionnaire
+- Automated scan results
+- Evidence repository (code snippets, configs)
+
+### Level 3 Validation
+
 **Internal Security Audit**
 
 - Performed by qualified internal security personnel or external consultant
 - Includes:
   - Code review of security-critical components
   - Configuration audit (container settings, network policies)
-  - Automated vulnerability scanning (SAST, DAST, SCA)
+  - Automated vulnerability scanning (SAST/DAST, container scanning)
   - Manual testing of authentication and authorization
 - Evidence documentation required for each control
 - Sign-off by security lead or CISO
 
 **Automated Tools**:
-- SAST: Semgrep, Snyk Code, CodeQL
+- SAST: Semgrep Pro, Snyk Code, CodeQL
 - DAST: OWASP ZAP, Burp Suite
 - SCA: Dependabot, Snyk Open Source
 - Container Scanning: Trivy, Grype, Clair
@@ -533,7 +689,7 @@ validation_date: "2026-01-15"
 - Evidence repository (code, configs, scan results)
 - Attestation letter from security team
 
-### Level 3 Validation
+### Level 4 Validation
 
 **Third-Party Penetration Testing**
 
@@ -578,18 +734,19 @@ validation_date: "2026-01-15"
 
 #### For Level 1
 
-**Timeline**: 1-4 hours for small projects
+**Timeline**: 1-2 hours for small projects
 
 **Steps**:
-1. **Read control requirements**: Review all 7 Level 1 controls
+1. **Read control requirements**: Review all 6 Level 1 controls
 2. **Assess current state**: Run automated scanners (e.g., Semgrep with MSSS ruleset)
 3. **Implement gaps**: Address identified deficiencies
 4. **Document evidence**: Create SAQ with evidence references
 5. **Display badge**: Add "MSSS Level 1 Compliant" to README
 
 **Common Implementation Patterns**:
+- No shell execution: Always use `subprocess.run([cmd, arg1, arg2], shell=False)`
 - Path allowlisting: Use `realpath()` + prefix matching
-- Shell execution: Always use `subprocess.run([cmd, arg1, arg2], shell=False)`
+- Symlink resolution: Resolve symlinks before path validation
 - URL validation: Block private IP ranges (10.0.0.0/8, 169.254.0.0/16, 127.0.0.0/8)
 - Schema validation: Use `jsonschema` library with strict schemas
 - Secret redaction: Use regex patterns to detect and redact secrets before logging
@@ -600,24 +757,41 @@ validation_date: "2026-01-15"
 
 #### For Level 2
 
-**Timeline**: 1-2 weeks initial implementation, 2-4 hours annual recertification
+**Timeline**: 4-8 hours initial implementation
 
 **Steps**:
 1. **Achieve Level 1**: Ensure all L1 controls implemented first
-2. **Architecture review**: Assess need for OAuth, RBAC, container hardening
-3. **Implement L2 controls**: Focus on AUTHZ domain (4 controls) first
-4. **Deploy logging and monitoring**: Implement MCP-LOG-01 comprehensive audit logs
-5. **Harden deployment**: Container non-root, dropped capabilities, resource limits
+2. **Add input hardening**: Implement bounds checking and timeouts
+3. **Enable TLS**: Configure TLS 1.2+ for all remote connections
+4. **Execution safety**: Add command allowlisting and argument separators
+5. **Supply chain**: Verify packages come from trusted sources
+6. **Document evidence**: Create comprehensive SAQ with scan results
+
+**Common Implementation Patterns**:
+- TLS: Use `ssl` module with modern cipher suites
+- Input bounds: Max string length 64KB, array size 1000, nesting depth 10
+- Timeouts: Tool execution 30s, total request 60s
+- Command allowlist: Explicit list of permitted executables
+- Argument separator: Use `--` between command and user-provided arguments
+
+#### For Level 3
+
+**Timeline**: 1-2 weeks initial implementation
+
+**Steps**:
+1. **Achieve Level 2**: Ensure all L2 controls implemented first
+2. **Architecture review**: Design authentication and authorization
+3. **Implement AUTHZ**: OAuth 2.1 + RBAC with deny rules
+4. **Deploy logging**: Comprehensive audit logs to SIEM
+5. **Harden containers**: Non-root user, dropped capabilities
 6. **Internal audit**: Security team review with SAST/DAST scans
-7. **Remediation**: Fix findings, document exceptions
-8. **Certification**: Obtain sign-off from security lead
+7. **Certification**: Obtain sign-off from security lead
 
 **Common Architectural Decisions**:
 - **Authentication**: OAuth 2.1 with OIDC for user delegation
 - **Authorization**: Casbin or OPA for policy-based access control
 - **Logging**: Structured JSON logs to SIEM (Splunk, Elasticsearch, Datadog)
 - **Container Base**: Distroless or Alpine Linux, non-root user
-- **Rate Limiting**: Token bucket algorithm (e.g., 100 req/min per user)
 
 **Tools**:
 - OAuth: Auth0, Okta, Keycloak
@@ -625,27 +799,28 @@ validation_date: "2026-01-15"
 - Container Scanning: Trivy, Anchore, Snyk Container
 - SAST: Semgrep Pro, CodeQL, Checkmarx
 
-#### For Level 3
+#### For Level 4
 
-**Timeline**: 4-8 weeks initial assessment, ongoing continuous monitoring
+**Timeline**: 4-8 weeks initial assessment
 
 **Steps**:
-1. **Achieve Level 2**: Complete all L2 controls and validation
-2. **Implement L3 controls**: Egress filtering, seccomp/AppArmor profiles
-3. **Threat modeling**: Formal STRIDE or PASTA analysis
-4. **Engage penetration tester**: Select qualified third-party (OSCP, GPEN, CEH)
-5. **Remediation**: Address all high/critical findings from pentest
-6. **Compliance mapping**: Align to industry regulations (HIPAA, PCI DSS, SOC 2)
-7. **Continuous monitoring**: Deploy SIEM, EDR, behavioral analytics
-8. **Certification**: Obtain third-party attestation
+1. **Achieve Level 3**: Complete all L3 controls and validation
+2. **Maximum isolation**: Filesystem sandboxing, seccomp profiles
+3. **Supply chain integrity**: Cryptographic verification of all packages
+4. **Network hardening**: Egress filtering with explicit allowlists
+5. **Resource protection**: Rate limiting and resource quotas
+6. **Runtime monitoring**: Deploy anomaly detection
+7. **Engage penetration tester**: Select qualified third-party (OSCP, GPEN, CEH)
+8. **Compliance mapping**: Align to industry regulations (HIPAA, PCI DSS, SOC 2)
 
 **Advanced Security Measures**:
+- **Filesystem Sandboxing**: chroot, containers with read-only root
+- **Seccomp**: Custom profiles blocking 95% of syscalls
 - **Egress Filtering**: Allowlist-based network policy (Kubernetes NetworkPolicy, iptables)
-- **Seccomp**: Custom seccomp profiles blocking 95% of syscalls
 - **Runtime Monitoring**: Falco rules for detecting anomalous behavior
-- **Incident Response**: PagerDuty/Splunk On-Call integration for alerts
 
 **Tools**:
+- Filesystem Isolation: Docker --read-only, chroot, bubblewrap
 - Egress Control: Kubernetes NetworkPolicy, Cilium, AWS Security Groups
 - Seccomp Profiles: docker-slim, oci-seccomp-bpf-hook
 - Runtime Security: Falco, Sysdig Secure, Aqua Security
@@ -656,15 +831,15 @@ validation_date: "2026-01-15"
 **Start with Level 1, upgrade as deployment context changes:**
 
 ```
-Personal Project → Deploy Internally → Customer-Facing → Regulated Industry
-     Level 1     →     Level 2      →    Level 2     →     Level 3
+Personal Project → Team Project → Customer-Facing → Regulated Industry
+     Level 1     →   Level 2   →    Level 3     →      Level 4
 ```
 
 **Progressive Compliance**:
-- **Month 1-2**: Implement Level 1 (7 controls)
-- **Month 3-6**: Add Level 2 authorization and logging (6 controls)
-- **Month 7-12**: Complete Level 2 deployment hardening (8 controls)
-- **Year 2+**: Upgrade to Level 3 as business criticality increases (3 controls)
+- **Week 1**: Implement Level 1 (6 controls)
+- **Month 1**: Add Level 2 controls (6 more)
+- **Quarter 1**: Implement Level 3 authorization and logging (6 more)
+- **Year 1+**: Upgrade to Level 4 for regulated deployments (6 more)
 
 ---
 
@@ -673,8 +848,8 @@ Personal Project → Deploy Internally → Customer-Facing → Regulated Industr
 ### Motivation
 
 Not all MCP tools within a server require the same security rigor. A server may have:
-- High-risk write tools (filesystem modification) → Level 3
-- Moderate-risk read tools (database queries) → Level 2
+- High-risk write tools (filesystem modification) → Level 4
+- Moderate-risk read tools (database queries) → Level 3
 - Low-risk informational tools (weather lookup) → Level 1
 
 **Precedent**: OWASP ASVS allows mixed-level implementations with clear documentation.
@@ -692,16 +867,16 @@ Not all MCP tools within a server require the same security rigor. A server may 
 {
   "server": {
     "name": "example-mcp-server",
-    "overall_level": "L2",
+    "overall_level": "L3",
     "tools": [
       {
         "name": "read_file",
-        "level": "L2",
+        "level": "L3",
         "rationale": "Accesses business-confidential documents"
       },
       {
         "name": "write_file",
-        "level": "L3",
+        "level": "L4",
         "rationale": "Can modify critical configuration files"
       },
       {
@@ -715,9 +890,9 @@ Not all MCP tools within a server require the same security rigor. A server may 
 ```
 
 **Validation**:
-- `read_file` and `write_file` undergo Level 2/3 validation respectively
+- `read_file` and `write_file` undergo Level 3/4 validation respectively
 - `get_weather` validated to Level 1
-- Server infrastructure must meet Level 3 (highest tool level)
+- Server infrastructure must meet Level 4 (highest tool level)
 
 ---
 
@@ -725,19 +900,19 @@ Not all MCP tools within a server require the same security rigor. A server may 
 
 ### Quick Reference
 
-| Aspect | Level 1 | Level 2 | Level 3 |
-|--------|---------|---------|---------|
-| **Target** | Personal / Dev | Team / Enterprise | Critical / Public |
-| **Users** | Individual | Team/Dept | Org / External |
-| **Data** | Public / Test | Business / PII | Regulated / PHI |
-| **Impact** | Inconvenience | Disruption | Severe Harm |
-| **Threats** | Opportunistic | Targeted | APT / Insider |
-| **Controls** | 7 (29%) | 21 (88%) | 24 (100%) |
-| **Validation** | Self-Assessment | Internal Audit | Third-Party Pentest |
-| **Frequency** | Annual | Annual | Annual + Quarterly Scans |
-| **Cost** | Free | Low-Moderate | High |
-| **Timeline** | 1-4 hours | 1-2 weeks | 4-8 weeks |
-| **Examples** | Hobby projects, dev/test | SaaS, team servers | Healthcare, finance, gov |
+| Aspect | Level 1 | Level 2 | Level 3 | Level 4 |
+|--------|---------|---------|---------|---------|
+| **Name** | Essential | Development | Production | Maximum Assurance |
+| **Target** | Personal / Hobby | Internal / Team | Enterprise / Customers | Critical / Regulated |
+| **Users** | Individual | Team (2-10) | Organization | Public / Regulated |
+| **Data** | Public / Test | Internal | Business / PII | Regulated / PHI |
+| **Impact** | Inconvenience | Dev delays | Disruption | Severe Harm |
+| **Threats** | Opportunistic | Semi-targeted | Targeted | APT / Insider |
+| **Controls** | 6 (25%) | 12 (50%) | 18 (75%) | 24 (100%) |
+| **Validation** | Self-Assessment | Self + Scanning | Internal Audit | Third-Party Pentest |
+| **Frequency** | Annual | Annual | Annual | Annual + Quarterly |
+| **Cost** | Free | Low | Moderate | High |
+| **Timeline** | 1-2 hours | 4-8 hours | 1-2 weeks | 4-8 weeks |
 
 ### Decision Tree Visual
 
@@ -747,19 +922,17 @@ START: Need to secure MCP server
          v
   [ Who uses it? ]
          |
-    +----+----+
-    |         |
-   Me       Team/Org
-    |         |
-    v         v
-[Level 1]  [ What data? ]
-               |
-          +----+----+
-          |         |
-       Business  Regulated
-          |         |
-          v         v
-      [Level 2] [Level 3]
+    +----+----+----+
+    |    |    |    |
+   Me   Team  Org  Public
+    |    |    |    |
+    v    v    v    v
+  [L1]  [L2] [L3] [L4]
+    |    |    |    |
+    v    v    v    v
+  [ What data? ]
+    |
+  (Upgrade if more sensitive than expected)
 ```
 
 ---
@@ -768,7 +941,7 @@ START: Need to secure MCP server
 
 ### Industry Standards Analyzed
 
-This compliance level framework is informed by analysis of seven major security standards:
+This compliance level framework is informed by analysis of eight major security standards:
 
 1. **NIST Cybersecurity Framework** (4 Implementation Tiers)
 2. **CIS Controls v8** (3 Implementation Groups: IG1/IG2/IG3)
@@ -777,14 +950,15 @@ This compliance level framework is informed by analysis of seven major security 
 5. **PCI DSS v4.0** (4 Merchant Levels)
 6. **OWASP ASVS v4.0** (3 Verification Levels: L1/L2/L3)
 7. **FedRAMP** (3 Authorization Levels: Low/Moderate/High)
+8. **COBIT** (4 Process Capability Levels)
 
 ### Key Insights Applied
 
+- **NIST CSF**: 4-tier model provides good granularity
+- **PCI DSS**: 4-level merchant categorization balances practicality with rigor
 - **CIS Controls**: Clear organizational profiles (small/medium/large enterprises)
-- **OWASP ASVS**: Proven 20-50-30 control distribution pattern
+- **OWASP ASVS**: Cumulative control distribution pattern
 - **FedRAMP**: Impact-based categorization (FIPS 199 framework)
-- **PCI DSS**: Separation of control requirements from validation rigor
-- **NIST CSF**: Process maturity independent from control selection
 
 ### Research Documents
 
@@ -799,6 +973,7 @@ Full analysis available in:
 - FedRAMP Baselines: https://www.fedramp.gov/understanding-baselines-and-impact-levels/
 - NIST SP 800-53: https://csrc.nist.gov/publications/detail/sp/800-53/rev-5/final
 - PCI DSS: https://www.pcisecuritystandards.org/
+- NIST CSF: https://www.nist.gov/cyberframework
 
 ---
 
@@ -806,7 +981,8 @@ Full analysis available in:
 
 | Version | Date | Changes | Author |
 |---------|------|---------|--------|
-| 1.0 | 2026-01-20 | Initial release | Dani |
+| 1.0 | 2026-01-20 | Initial release (3 levels) | Dani |
+| 2.0 | 2026-01-20 | Expanded to 4 levels for improved granularity | Dani |
 
 ---
 

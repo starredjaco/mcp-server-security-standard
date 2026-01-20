@@ -5,7 +5,7 @@ weight: 41
 
 # MCP-AUTHZ-01 — OAuth Token Delegation
 
-**Level:** L2  
+**Level:** L3
 **Domain:** AUTHZ  
 
 ## Requirement

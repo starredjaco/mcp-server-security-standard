@@ -5,7 +5,7 @@ weight: 81
 
 # MCP-DEPLOY-01 — Container Hardening (Non-Root, Capabilities)
 
-**Level:** L2  
+**Level:** L3
 **Domain:** DEPLOY  
 
 ## Requirement

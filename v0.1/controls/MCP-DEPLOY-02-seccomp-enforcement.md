@@ -5,7 +5,7 @@ weight: 82
 
 # MCP-DEPLOY-02 — System Call Filtering (seccomp/AppArmor)
 
-**Level:** L3
+**Level:** L4
 **Domain:** DEPLOY
 
 ## Requirement

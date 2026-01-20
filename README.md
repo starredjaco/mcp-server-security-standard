@@ -10,8 +10,8 @@ The Model Context Protocol enables AI models to interact with external systems t
 
 MSSS provides:
 - **24 security controls** across 8 domains
-- **3 compliance levels** (L1-Foundational, L2-Standard, L3-Maximum Assurance)
-- **Risk-based level selection** framework inspired by OWASP ASVS and CIS Controls
+- **4 compliance levels** (L1-Essential, L2-Development, L3-Production, L4-Maximum Assurance)
+- **Risk-based level selection** framework inspired by NIST CSF, OWASP ASVS, and CIS Controls
 - **6 deployment profiles** (Local Dev, Team Server, Internet-Facing, etc.)
 - **Evidence-based verification** with clear acceptance criteria
 - **Machine-readable reporting** through JSON schemas
@@ -60,51 +60,57 @@ mkdir -p v0.1/i18n/es/standard
 
 ## Compliance Levels
 
-MSSS defines three compliance levels using a **risk-based selection model** (not maturity progression). Organizations select their target level based on deployment context, data sensitivity, and potential impact.
+MSSS defines **four compliance levels** using a **risk-based selection model** (not maturity progression). Organizations select their target level based on deployment context, data sensitivity, and potential impact.
 
 ### Level Selection Framework
 
 | Level | Target Audience | Controls | Validation | Timeline |
 |-------|----------------|----------|------------|----------|
-| **L1: Foundational** | Personal/Development | 7 (29%) | Self-assessment | 1-4 hours |
-| **L2: Standard** | Team/Enterprise | 21 (88%) | Internal audit | 1-2 weeks |
-| **L3: Maximum Assurance** | Critical/Public | 24 (100%) | Third-party pentest | 4-8 weeks |
+| **L1: Essential** | Personal/Hobby | 6 (25%) | Self-assessment | 1-2 hours |
+| **L2: Development** | Internal/Team | 12 (50%) | Self + scanning | 4-8 hours |
+| **L3: Production** | Enterprise/Customers | 18 (75%) | Internal audit | 1-2 weeks |
+| **L4: Maximum Assurance** | Critical/Regulated | 24 (100%) | Third-party pentest | 4-8 weeks |
 
 ### Quick Decision Guide
 
 **Choose your level based on 4 key questions:**
 
-1. **Who uses it?** Individual → L1 | Team → L2 | Public → L3
-2. **What data?** Public → L1 | Business-confidential → L2 | Regulated (PHI/PCI) → L3
-3. **Impact if compromised?** Inconvenience → L1 | Business disruption → L2 | Severe harm → L3
-4. **Threat model?** Opportunistic → L1 | Targeted → L2 | APT → L3
+1. **Who uses it?** Individual → L1 | Team → L2 | Organization/Customers → L3 | Public/Regulated → L4
+2. **What data?** Public → L1 | Internal → L2 | Business/PII → L3 | Regulated (PHI/PCI) → L4
+3. **Impact if compromised?** Inconvenience → L1 | Dev delays → L2 | Disruption → L3 | Severe harm → L4
+4. **Threat model?** Opportunistic → L1 | Semi-targeted → L2 | Targeted → L3 | APT → L4
 
 ### Level Highlights
 
-**Level 1 (Foundational Baseline)**
-- Essential protection for personal tools and development environments
-- Prevents: Command injection, path traversal, SSRF, schema poisoning
-- Key controls: No shell execution, path allowlisting, URL validation, schema validation
+**Level 1 (Essential)**
+- Essential protection for personal tools and hobby projects
+- Prevents: Command injection, path traversal, SSRF, credential leaks
+- Key controls: No shell execution, path allowlisting, URL validation, schema validation, secret redaction
 
-**Level 2 (Standard Protection)**
-- Comprehensive security for team collaboration and business applications
-- Adds: OAuth authentication, RBAC, audit logging, TLS, container hardening
+**Level 2 (Development)**
+- Security for development teams and internal tools
+- Adds: TLS enforcement, input bounds, timeouts, command allowlisting, trusted sources
+- Required for: Team projects, internal apps, pre-production environments
+
+**Level 3 (Production)**
+- Comprehensive security for enterprise and customer-facing applications
+- Adds: OAuth authentication, RBAC, audit logging, container hardening
 - Required for: SaaS products, customer data, business-confidential information
 
-**Level 3 (Maximum Assurance)**
+**Level 4 (Maximum Assurance)**
 - Maximum hardening for critical infrastructure and regulated environments
-- Adds: Egress filtering, seccomp/AppArmor, runtime monitoring
+- Adds: Filesystem sandboxing, egress filtering, seccomp/AppArmor, runtime monitoring
 - Required for: HIPAA (healthcare), PCI DSS (payments), FedRAMP (government)
 
 📖 **Full documentation**: See [Compliance Levels](v0.1/standard/compliance-levels.md) and [Control-Level Mapping](v0.1/standard/control-level-mapping.md)
 
 ### Regulatory Mappings
 
-- **HIPAA** (Healthcare): Level 3 minimum for PHI access
-- **PCI DSS** (Payments): Level 3 minimum for cardholder data
-- **SOC 2** (SaaS): Level 2 minimum
-- **ISO 27001**: Level 2 minimum for certification
-- **FedRAMP**: Low→L2, Moderate/High→L3
+- **HIPAA** (Healthcare): Level 4 minimum for PHI access
+- **PCI DSS** (Payments): Level 4 minimum for cardholder data
+- **SOC 2** (SaaS): Level 3 minimum
+- **ISO 27001**: Level 3 minimum for certification
+- **FedRAMP**: Low→L3, Moderate/High→L4
 
 ## Control Catalog
 
@@ -114,7 +120,7 @@ MSSS defines three compliance levels using a **risk-based selection model** (not
 |---------|-------|-------------|
 | [MCP-FS-01](v0.1/controls/MCP-FS-01-path-allowlisting.md) | L1 | Path allowlisting to prevent unauthorized file access |
 | [MCP-FS-02](v0.1/controls/MCP-FS-02-symlink-resolution.md) | L1 | Symlink resolution to prevent path traversal via symbolic links |
-| [MCP-FS-03](v0.1/controls/MCP-FS-03-filesystem-sandboxing.md) | L2 | Filesystem sandboxing for complete isolation |
+| [MCP-FS-03](v0.1/controls/MCP-FS-03-filesystem-sandboxing.md) | L4 | Filesystem sandboxing for complete isolation |
 
 ### Execution (EXEC)
 
@@ -129,17 +135,17 @@ MSSS defines three compliance levels using a **risk-based selection model** (not
 | Control | Level | Description |
 |---------|-------|-------------|
 | [MCP-NET-01](v0.1/controls/MCP-NET-01-url-validation.md) | L1 | URL validation to prevent SSRF attacks |
-| [MCP-NET-02](v0.1/controls/MCP-NET-02-egress-filtering.md) | L3 | Egress traffic filtering with destination allowlists |
+| [MCP-NET-02](v0.1/controls/MCP-NET-02-egress-filtering.md) | L4 | Egress traffic filtering with destination allowlists |
 | [MCP-NET-03](v0.1/controls/MCP-NET-03-tls-enforcement.md) | L2 | TLS 1.2+ enforcement for all remote connections |
 
 ### Authorization (AUTHZ)
 
 | Control | Level | Description |
 |---------|-------|-------------|
-| [MCP-AUTHZ-01](v0.1/controls/MCP-AUTHZ-01-oauth-delegation.md) | L2 | OAuth 2.1 delegation for secure authentication |
-| [MCP-AUTHZ-02](v0.1/controls/MCP-AUTHZ-02-tool-scopes.md) | L2 | Per-tool scope definition with granular permissions |
-| [MCP-AUTHZ-03](v0.1/controls/MCP-AUTHZ-03-least-privilege.md) | L2 | Least privilege tool design principles |
-| [MCP-AUTHZ-04](v0.1/controls/MCP-AUTHZ-04-rbac.md) | L2 | Resource-based access control (RBAC) |
+| [MCP-AUTHZ-01](v0.1/controls/MCP-AUTHZ-01-oauth-delegation.md) | L3 | OAuth 2.1 delegation for secure authentication |
+| [MCP-AUTHZ-02](v0.1/controls/MCP-AUTHZ-02-tool-scopes.md) | L3 | Per-tool scope definition with granular permissions |
+| [MCP-AUTHZ-03](v0.1/controls/MCP-AUTHZ-03-least-privilege.md) | L3 | Least privilege tool design principles |
+| [MCP-AUTHZ-04](v0.1/controls/MCP-AUTHZ-04-rbac.md) | L3 | Resource-based access control (RBAC) |
 
 ### Input Validation (INPUT)
 
@@ -153,28 +159,29 @@ MSSS defines three compliance levels using a **risk-based selection model** (not
 
 | Control | Level | Description |
 |---------|-------|-------------|
-| [MCP-LOG-01](v0.1/controls/MCP-LOG-01-audit-logging.md) | L2 | Comprehensive audit logging for all tool invocations |
+| [MCP-LOG-01](v0.1/controls/MCP-LOG-01-audit-logging.md) | L3 | Comprehensive audit logging for all tool invocations |
 | [MCP-LOG-02](v0.1/controls/MCP-LOG-02-secret-redaction.md) | L1 | Automatic secret redaction in logs |
 
 ### Supply Chain (SUPPLY)
 
 | Control | Level | Description |
 |---------|-------|-------------|
-| [MCP-SUPPLY-01](v0.1/controls/MCP-SUPPLY-01-package-integrity.md) | L2 | Package integrity verification with checksums |
-| [MCP-SUPPLY-02](v0.1/controls/MCP-SUPPLY-02-trusted-sources.md) | L1 | Trusted package sources and registry verification |
+| [MCP-SUPPLY-01](v0.1/controls/MCP-SUPPLY-01-package-integrity.md) | L4 | Package integrity verification with checksums |
+| [MCP-SUPPLY-02](v0.1/controls/MCP-SUPPLY-02-trusted-sources.md) | L2 | Trusted package sources and registry verification |
 
 ### Deployment (DEPLOY)
 
 | Control | Level | Description |
 |---------|-------|-------------|
-| [MCP-DEPLOY-01](v0.1/controls/MCP-DEPLOY-01-container-hardening.md) | L2 | Container hardening with security best practices |
-| [MCP-DEPLOY-02](v0.1/controls/MCP-DEPLOY-02-seccomp-enforcement.md) | L3 | System call filtering via seccomp/AppArmor |
-| [MCP-DEPLOY-03](v0.1/controls/MCP-DEPLOY-03-resource-limits.md) | L2 | Resource limits and rate limiting for DoS prevention |
+| [MCP-DEPLOY-01](v0.1/controls/MCP-DEPLOY-01-container-hardening.md) | L3 | Container hardening with security best practices |
+| [MCP-DEPLOY-02](v0.1/controls/MCP-DEPLOY-02-seccomp-enforcement.md) | L4 | System call filtering via seccomp/AppArmor |
+| [MCP-DEPLOY-03](v0.1/controls/MCP-DEPLOY-03-resource-limits.md) | L4 | Resource limits and rate limiting for DoS prevention |
 
 **Total**: 24 controls across 8 security domains
-- **Level 1**: 7 controls (29%) - Foundational baseline
-- **Level 2**: 21 controls (88%) - Standard protection
-- **Level 3**: 24 controls (100%) - Maximum assurance
+- **Level 1**: 6 controls (25%) - Essential baseline
+- **Level 2**: 12 controls (50%) - Development protection
+- **Level 3**: 18 controls (75%) - Production security
+- **Level 4**: 24 controls (100%) - Maximum assurance
 
 ## How to Contribute
 

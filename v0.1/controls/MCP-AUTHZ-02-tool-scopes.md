@@ -5,7 +5,7 @@ weight: 42
 
 # MCP-AUTHZ-02 — Per-Tool Scope Definition
 
-**Level:** L2
+**Level:** L3
 **Domain:** AUTHZ
 
 ## Requirement

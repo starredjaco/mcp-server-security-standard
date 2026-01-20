@@ -5,7 +5,7 @@ weight: 13
 
 # MCP-FS-03 — Filesystem Sandboxing
 
-**Level:** L2
+**Level:** L4
 **Domain:** FS
 
 ## Requirement

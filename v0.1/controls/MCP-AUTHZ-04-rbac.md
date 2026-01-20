@@ -5,7 +5,7 @@ weight: 44
 
 # MCP-AUTHZ-04 — Resource-Based Access Control
 
-**Level:** L2
+**Level:** L3
 **Domain:** AUTHZ
 
 ## Requirement

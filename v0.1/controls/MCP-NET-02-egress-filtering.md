@@ -5,7 +5,7 @@ weight: 32
 
 # MCP-NET-02 — Egress Traffic Filtering
 
-**Level:** L3
+**Level:** L4
 **Domain:** NET
 
 ## Requirement

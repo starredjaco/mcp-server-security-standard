@@ -5,7 +5,7 @@ weight: 72
 
 # MCP-SUPPLY-02 — Trusted Package Sources and Registry Verification
 
-**Level:** L1
+**Level:** L2
 **Domain:** SUPPLY
 
 ## Requirement

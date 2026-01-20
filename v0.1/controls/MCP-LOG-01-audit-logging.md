@@ -5,7 +5,7 @@ weight: 61
 
 # MCP-LOG-01 — Comprehensive Audit Logging
 
-**Level:** L2  
+**Level:** L3
 **Domain:** LOG  
 
 ## Requirement

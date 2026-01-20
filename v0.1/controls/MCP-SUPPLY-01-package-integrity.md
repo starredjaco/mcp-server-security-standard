@@ -5,7 +5,7 @@ weight: 71
 
 # MCP-SUPPLY-01 — Package Integrity Verification
 
-**Level:** L2  
+**Level:** L4
 **Domain:** SUPPLY  
 
 ## Requirement

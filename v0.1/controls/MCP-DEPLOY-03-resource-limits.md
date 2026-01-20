@@ -5,7 +5,7 @@ weight: 83
 
 # MCP-DEPLOY-03 — Resource Limits and Rate Limiting
 
-**Level:** L2
+**Level:** L4
 **Domain:** DEPLOY
 
 ## Requirement
