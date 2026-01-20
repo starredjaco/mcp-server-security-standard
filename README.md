@@ -9,8 +9,9 @@
 The Model Context Protocol enables AI models to interact with external systems through tools, resources, and prompts. As adoption accelerates, critical vulnerabilities have emerged: command injection, path traversal, SSRF attacks, and supply chain compromises.
 
 MSSS provides:
-- **23 security controls** across 8 domains
-- **3 maturity levels** (L1-Baseline, L2-Standard, L3-Advanced)
+- **24 security controls** across 8 domains
+- **3 compliance levels** (L1-Foundational, L2-Standard, L3-Maximum Assurance)
+- **Risk-based level selection** framework inspired by OWASP ASVS and CIS Controls
 - **6 deployment profiles** (Local Dev, Team Server, Internet-Facing, etc.)
 - **Evidence-based verification** with clear acceptance criteria
 - **Machine-readable reporting** through JSON schemas
@@ -57,6 +58,54 @@ mkdir -p v0.1/i18n/es/standard
 - Share attack patterns: Open an issue with `threat-research` label
 - Propose new controls: See [contributing guide](v0.1/governance/contributing.md)
 
+## Compliance Levels
+
+MSSS defines three compliance levels using a **risk-based selection model** (not maturity progression). Organizations select their target level based on deployment context, data sensitivity, and potential impact.
+
+### Level Selection Framework
+
+| Level | Target Audience | Controls | Validation | Timeline |
+|-------|----------------|----------|------------|----------|
+| **L1: Foundational** | Personal/Development | 7 (29%) | Self-assessment | 1-4 hours |
+| **L2: Standard** | Team/Enterprise | 21 (88%) | Internal audit | 1-2 weeks |
+| **L3: Maximum Assurance** | Critical/Public | 24 (100%) | Third-party pentest | 4-8 weeks |
+
+### Quick Decision Guide
+
+**Choose your level based on 4 key questions:**
+
+1. **Who uses it?** Individual → L1 | Team → L2 | Public → L3
+2. **What data?** Public → L1 | Business-confidential → L2 | Regulated (PHI/PCI) → L3
+3. **Impact if compromised?** Inconvenience → L1 | Business disruption → L2 | Severe harm → L3
+4. **Threat model?** Opportunistic → L1 | Targeted → L2 | APT → L3
+
+### Level Highlights
+
+**Level 1 (Foundational Baseline)**
+- Essential protection for personal tools and development environments
+- Prevents: Command injection, path traversal, SSRF, schema poisoning
+- Key controls: No shell execution, path allowlisting, URL validation, schema validation
+
+**Level 2 (Standard Protection)**
+- Comprehensive security for team collaboration and business applications
+- Adds: OAuth authentication, RBAC, audit logging, TLS, container hardening
+- Required for: SaaS products, customer data, business-confidential information
+
+**Level 3 (Maximum Assurance)**
+- Maximum hardening for critical infrastructure and regulated environments
+- Adds: Egress filtering, seccomp/AppArmor, runtime monitoring
+- Required for: HIPAA (healthcare), PCI DSS (payments), FedRAMP (government)
+
+📖 **Full documentation**: See [Compliance Levels](v0.1/standard/compliance-levels.md) and [Control-Level Mapping](v0.1/standard/control-level-mapping.md)
+
+### Regulatory Mappings
+
+- **HIPAA** (Healthcare): Level 3 minimum for PHI access
+- **PCI DSS** (Payments): Level 3 minimum for cardholder data
+- **SOC 2** (SaaS): Level 2 minimum
+- **ISO 27001**: Level 2 minimum for certification
+- **FedRAMP**: Low→L2, Moderate/High→L3
+
 ## Control Catalog
 
 ### Filesystem (FS)
@@ -64,16 +113,16 @@ mkdir -p v0.1/i18n/es/standard
 | Control | Level | Description |
 |---------|-------|-------------|
 | [MCP-FS-01](v0.1/controls/MCP-FS-01-path-allowlisting.md) | L1 | Path allowlisting to prevent unauthorized file access |
-| [MCP-FS-02](v0.1/controls/MCP-FS-02-symlink-resolution.md) | L2 | Symlink resolution to prevent path traversal via symbolic links |
-| [MCP-FS-03](v0.1/controls/MCP-FS-03-filesystem-sandboxing.md) | L3 | Filesystem sandboxing for complete isolation |
+| [MCP-FS-02](v0.1/controls/MCP-FS-02-symlink-resolution.md) | L1 | Symlink resolution to prevent path traversal via symbolic links |
+| [MCP-FS-03](v0.1/controls/MCP-FS-03-filesystem-sandboxing.md) | L2 | Filesystem sandboxing for complete isolation |
 
 ### Execution (EXEC)
 
 | Control | Level | Description |
 |---------|-------|-------------|
 | [MCP-EXEC-01](v0.1/controls/MCP-EXEC-01-no-shell-execution.md) | L1 | Avoid shell execution to prevent command injection |
-| [MCP-EXEC-02](v0.1/controls/MCP-EXEC-02-command-allowlisting.md) | L1 | Command allowlisting for permitted executables |
-| [MCP-EXEC-03](v0.1/controls/MCP-EXEC-03-argument-separator.md) | L1 | Argument separation to prevent injection attacks |
+| [MCP-EXEC-02](v0.1/controls/MCP-EXEC-02-command-allowlisting.md) | L2 | Command allowlisting for permitted executables |
+| [MCP-EXEC-03](v0.1/controls/MCP-EXEC-03-argument-separator.md) | L2 | Argument separation to prevent injection attacks |
 
 ### Network (NET)
 
@@ -97,21 +146,21 @@ mkdir -p v0.1/i18n/es/standard
 | Control | Level | Description |
 |---------|-------|-------------|
 | [MCP-INPUT-01](v0.1/controls/MCP-INPUT-01-schema-validation.md) | L1 | JSON Schema validation for all tool arguments |
-| [MCP-INPUT-02](v0.1/controls/MCP-INPUT-02-bounds-checking.md) | L1 | Input bounds checking to prevent DoS attacks |
+| [MCP-INPUT-02](v0.1/controls/MCP-INPUT-02-bounds-checking.md) | L2 | Input bounds checking to prevent DoS attacks |
 | [MCP-INPUT-03](v0.1/controls/MCP-INPUT-03-timeout-enforcement.md) | L2 | Timeout enforcement for resource exhaustion prevention |
 
 ### Logging (LOG)
 
 | Control | Level | Description |
 |---------|-------|-------------|
-| [MCP-LOG-01](v0.1/controls/MCP-LOG-01-audit-logging.md) | L1 | Comprehensive audit logging for all tool invocations |
+| [MCP-LOG-01](v0.1/controls/MCP-LOG-01-audit-logging.md) | L2 | Comprehensive audit logging for all tool invocations |
 | [MCP-LOG-02](v0.1/controls/MCP-LOG-02-secret-redaction.md) | L1 | Automatic secret redaction in logs |
 
 ### Supply Chain (SUPPLY)
 
 | Control | Level | Description |
 |---------|-------|-------------|
-| [MCP-SUPPLY-01](v0.1/controls/MCP-SUPPLY-01-package-integrity.md) | L1 | Package integrity verification with checksums |
+| [MCP-SUPPLY-01](v0.1/controls/MCP-SUPPLY-01-package-integrity.md) | L2 | Package integrity verification with checksums |
 | [MCP-SUPPLY-02](v0.1/controls/MCP-SUPPLY-02-trusted-sources.md) | L1 | Trusted package sources and registry verification |
 
 ### Deployment (DEPLOY)
@@ -122,7 +171,10 @@ mkdir -p v0.1/i18n/es/standard
 | [MCP-DEPLOY-02](v0.1/controls/MCP-DEPLOY-02-seccomp-enforcement.md) | L3 | System call filtering via seccomp/AppArmor |
 | [MCP-DEPLOY-03](v0.1/controls/MCP-DEPLOY-03-resource-limits.md) | L2 | Resource limits and rate limiting for DoS prevention |
 
-**Total**: 23 controls across 8 security domains
+**Total**: 24 controls across 8 security domains
+- **Level 1**: 7 controls (29%) - Foundational baseline
+- **Level 2**: 21 controls (88%) - Standard protection
+- **Level 3**: 24 controls (100%) - Maximum assurance
 
 ## How to Contribute
 
