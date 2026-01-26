@@ -219,6 +219,7 @@ We follow a simple process:
 ### Project Lead
 
 - **Daniel García (cr0hn)** - [@cr0hn](https://github.com/cr0hn)
+- **Dr. Alfonso Múñoz (Mindcrypt)** [Mindcrypt](https://github.com/mindcrypt)
 
 **Looking for Co-Maintainers!** If you're passionate about MCP security and want to help shape this standard, please reach out.
 
