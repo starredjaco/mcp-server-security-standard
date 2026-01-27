@@ -18,7 +18,7 @@ MSSS provides:
 
 ## Current Status - v0.1.0
 
-Released: **January 15, 2025** (Community Review Draft)
+Released: **January 15, 2026** (Community Review Draft)
 
 ### What's Included
 - Core standard framework (msss.md)
@@ -236,13 +236,13 @@ All contributors will be recognized in:
 - Validate against real-world deployments
 - Collect implementation experiences
 
-### v0.2 (Q2 2025)
+### v0.2 (Q2 2026)
 - Incorporate community feedback
 - Add controls for emerging threats
 - Publish reference implementations
 - Launch translation program
 
-### v1.0 (Q4 2025)
+### v1.0 (Q4 2026)
 - Stable specification
 - Automated verification tools
 - Certification program framework
