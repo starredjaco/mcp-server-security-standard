@@ -266,6 +266,8 @@ MSSS uses a multi-license approach:
 | JSON Schemas | Apache 2.0 | Commercial tool integration |
 | Code Examples | MIT | Maximum flexibility |
 
+See the full license text in the [LICENSE](LICENSE) file.
+
 ## Support the Project
 
 - **Star this repository** - Help others discover MSSS
