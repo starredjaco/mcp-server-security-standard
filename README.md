@@ -22,7 +22,7 @@ The following platforms have adopted the MCP Server Security Standard:
 
 | Platform | Description | Status |
 |----------|-------------|--------|
-| [MCP Hub](https://mcp-hub.info/) | MCP server directory and marketplace — discover, publish, and manage MCP-compliant servers | ✅ Compliant |
+| [![MCP Hub](https://cdn.mcp-hub.info/logo.svg)](https://mcp-hub.info/) | MCP server directory and marketplace — discover, publish, and manage MCP-compliant servers | ✅ Compliant |
 
 > Are you implementing MSSS? [Open an issue](https://github.com/mcp-security-standard/mcp-server-security-standard/issues) or submit a PR to be listed here.
 
