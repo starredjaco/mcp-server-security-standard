@@ -16,6 +16,16 @@ MSSS provides:
 - **Evidence-based verification** with clear acceptance criteria
 - **Machine-readable reporting** through JSON schemas
 
+## Compliant Platforms
+
+The following platforms have adopted the MCP Server Security Standard:
+
+| Platform | Description | Status |
+|----------|-------------|--------|
+| [MCP Hub](https://mcp-hub.info/) | MCP server directory and marketplace — discover, publish, and manage MCP-compliant servers | ✅ Compliant |
+
+> Are you implementing MSSS? [Open an issue](https://github.com/mcp-security-standard/mcp-server-security-standard/issues) or submit a PR to be listed here.
+
 ## Current Status - v0.1.0
 
 Released: **January 15, 2026** (Community Review Draft)
